@@ -14,8 +14,8 @@ void Netcontrol::init(Loader *loader, const Config &config)
 
     swmanager = SwitchManager::get(loader);
     connect(
-            swmanager, &SwitchManager::switchUp,
-            this, &Netcontrol::switchUp
+            swmanager, &SwitchManager::switchDiscovered,
+            this, &Netcontrol::switchDiscovered
     );
     connect(
             swmanager, &SwitchManager::switchDown,
@@ -23,9 +23,11 @@ void Netcontrol::init(Loader *loader, const Config &config)
     );
 }
 
-void Netcontrol::switchUp(Switch *sw)
+void Netcontrol::switchDiscovered(Switch *sw)
 {
         LOG(INFO) << "Switch " << sw->dpid() << " up";
+        // TODO topo = topo.withSwitch();
+
 }
 
 void Netcontrol::switchBroken(Switch *sw)
