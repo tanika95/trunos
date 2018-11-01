@@ -5,10 +5,10 @@
 
 #include "Vl.hh"
 
-class Config
+class VlConfig
 {
 public:
-	Config(const std::string &file);
+	VlConfig(const std::string &file);
 	VlSet dataflows();
 
 private:

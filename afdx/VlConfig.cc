@@ -1,4 +1,4 @@
-#include "Config.hh"
+#include "VlConfig.hh"
 
 #include <vector>
 #include <iostream>
@@ -9,13 +9,13 @@ using namespace std;
 using namespace boost::property_tree;
 
 
-Config::Config(const string &file)
+VlConfig::VlConfig(const string &file)
 {
-	LOG(INFO) << "Open config ";
+	LOG(INFO) << "Open VlConfig ";
 	read_xml(file, tree);
 }
 
-VlSet Config::dataflows()
+VlSet VlConfig::dataflows()
 {
 	VlSet vls;
 	for (const auto &vl : tree.get_child("links")) {
