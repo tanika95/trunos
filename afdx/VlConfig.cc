@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <boost/property_tree/xml_parser.hpp>
+#include "Common.h"
 #include "Sla.hh"
 
 using namespace std;
