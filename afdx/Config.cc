@@ -17,7 +17,7 @@ Config::Config(const string &file)
 
 VlSet Config::dataflows()
 {
-	VLSet vls;
+	VlSet vls;
 	for (const auto &vl : tree.get_child("links")) {
         	auto id = vl.second.get<uint32_t>("id");
 		auto sender = vl.second.get<uint32_t>("sender");
@@ -25,7 +25,7 @@ VlSet Config::dataflows()
 		auto bag = vl.second.get<uint32_t>("bag");
 	 	auto lmax = vl.second.get<uint32_t>("lmax");
 		auto jitt = vl.second.get<double>("jitter");
-		vls.push_back(Vl(id, sender, reciever, SLA(bag, lmax, jitt)));
+		vls.push_back(Vl(id, sender, reciever, Sla(bag, lmax, jitt)));
 	}
 	return vls;
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include <stdint.h>
 
-class SLA {
+class Sla {
 public:
-	SLA(double bag, double lmax, double jitt);
-	SLA();
+	Sla(double bag, double lmax, double jitt);
+	Sla();
 
 	double rate() const;
 	double burstSize() const;

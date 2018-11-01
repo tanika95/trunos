@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Vl::Vl(uint32_t vid, uint32_t sid, uint32_t rid, SLA params)
+Vl::Vl(uint32_t vid, uint32_t sid, uint32_t rid, Sla params)
 	: id(v_id), sender(sid), receiver(rid), params(params)
 {
 }
