@@ -8,19 +8,19 @@ using namespace runos;
 
 void Netcontrol::init(Loader *loader, const Config &config)
 {
-    Controller* ctrl = Controller::get(loader);
-    LOG(INFO) << "Netcontrol init";
-    auto table = ctrl->getTable("netcontrol");
+    	Controller* ctrl = Controller::get(loader);
+    	LOG(INFO) << "Netcontrol init";
+    	auto table = ctrl->getTable("netcontrol");
 
-    swmanager = SwitchManager::get(loader);
-    connect(
-            swmanager, &SwitchManager::switchDiscovered,
-            this, &Netcontrol::switchDiscovered
-    );
-    connect(
-            swmanager, &SwitchManager::switchDown,
-            this, &Netcontrol::switchBroken
-    );
+    	swmanager = SwitchManager::get(loader);
+    	connect(
+            	swmanager, &SwitchManager::switchDiscovered,
+            	this, &Netcontrol::switchDiscovered
+    	);
+    	connect(
+            	swmanager, &SwitchManager::switchDown,
+            	this, &Netcontrol::switchBroken
+    	);
 }
 
 void Netcontrol::switchDiscovered(Switch *sw)
