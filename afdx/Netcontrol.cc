@@ -1,5 +1,5 @@
 #include "Netcontrol.hh"
-#include "Common.h"
+#include "Common.hh"
 #include "Controller.hh"
 
 REGISTER_APPLICATION(Netcontrol, {"controller", ""})
