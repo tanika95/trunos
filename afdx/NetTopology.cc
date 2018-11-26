@@ -5,8 +5,10 @@ using namespace std;
 NetTopology::NetTopology()
 {}
 
-NetTopology::NetTopology(const map<uint32_t, Host> &hosts, const map<uint32_t, NetSwitch> &switches)
-	: hosts(hosts), switches(switches)
+NetTopology::NetTopology(
+	const map<uint32_t, NetHost> &hosts,
+	const map<uint32_t, NetSwitch> &switches
+) : hosts(hosts), switches(switches)
 {}
 
 NetTopology NetTopology::withSwitch(uint32_t id) const
@@ -24,7 +26,17 @@ NetTopology NetTopology::withHost(uint32_t id) const
 
 }
 
+NetTopology NetTopology::withoutHost(uint32_t id) const
+{
+
+}
+
 NetTopology NetTopology::withLink(const NetLink &link) const
+{
+
+}
+
+NetTopology NetTopology::withoutLink(const NetLink &link) const
 {
 
 }

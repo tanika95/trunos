@@ -1,7 +1,8 @@
 #pragma once
 
 #include <map>
-#include "Host.hh"
+#include "NetHost.hh"
+#include "NetLink.hh"
 #include "NetSwitch.hh"
 
 
@@ -11,8 +12,10 @@ public:
 	NetTopology();
 	NetTopology withSwitch(uint32_t id) const;
 	NetTopology withoutSwitch(uint32_t id) const;
-	NetTopology withHost(uint32_t host) const;
+	NetTopology withHost(uint32_t id) const;
+	NetTopology withoutHost(uint32_t id) const;
 	NetTopology withLink(const NetLink &link) const;
+	NetTopology withoutLink(const NetLink &link) const;
 
 private:
 	NetTopology(
