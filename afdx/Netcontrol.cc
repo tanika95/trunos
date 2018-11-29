@@ -2,7 +2,7 @@
 #include "Common.hh"
 #include "Controller.hh"
 
-REGISTER_APPLICATION(Netcontrol, {"controller", "switch-manager", ""})
+REGISTER_APPLICATION(Netcontrol, {"controller", "switch-manager", "link-discovery", ""})
 
 using namespace runos;
 

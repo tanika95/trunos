@@ -1,0 +1,49 @@
+{
+
+"default": {
+    "services": [
+        "link-discovery",
+        "switch-manager",
+	"netcontrol"
+    ],
+
+    "tables": {
+        "maple" : 1,
+        "netcontrol" : 2
+    },
+
+    "rest-listener" : {
+         "port" : 8000,
+         "web-dir" : "./build/web"
+    },
+
+    "controller": {
+         "nthreads": 1,
+         "cbench": false,
+	 "pipeline": [
+                 "switch-manager",
+             "netcontrol"
+          ]
+   },
+
+    "maple": {
+          "pipeline": [
+             "link-discovery"
+         ]
+    },
+
+    "loader": {
+        "threads": 2
+    },
+
+    "link-discovery": {
+        "poll-interval": 10,
+        "pin-to-thread": 1
+    },
+
+    "switch-manager": {
+        "pin-to-thread": 1
+    }
+}
+
+}
