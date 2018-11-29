@@ -1,4 +1,5 @@
 #include "NetTopology.hh"
+#include "Common.hh"
 
 using namespace std;
 
@@ -11,46 +12,52 @@ NetTopology::NetTopology(
 ) : hosts(hosts), switches(switches)
 {}
 
-NetTopology NetTopology::withSwitch(uint32_t id) const
+void NetTopology::log() const
 {
-	return NetTopology(id, addSwitch(switches, id));
+	LOG(INFO) << "Network";
+	for (const auto &swtch : switches) {
+		swtch.second.log();
+	}
 }
 
-NetTopology NetTopology::withoutSwitch(uint32_t id) const
+shared_ptr<NetTopology> NetTopology::withSwitch(uint32_t id) const
 {
-	return NetTopology(id, removeSwitch(switches, id));
+	return make_shared<NetTopology>(hosts, addSwitch(switches, id));
 }
 
-NetTopology NetTopology::withHost(uint32_t id) const
+shared_ptr<NetTopology> NetTopology::withoutSwitch(uint32_t id) const
 {
-
+	return make_shared<NetTopology>(hosts, removeSwitch(switches, id));
 }
 
-NetTopology NetTopology::withoutHost(uint32_t id) const
-{
-
-}
-
-NetTopology NetTopology::withLink(const NetLink &link) const
-{
-
-}
-
-NetTopology NetTopology::withoutLink(const NetLink &link) const
+shared_ptr<NetTopology> NetTopology::withHost(uint32_t id) const
 {
 
 }
 
-
-map<uint32_t, NetSwitch> NetTopology::addSwitch(const map<uint32_t, NetSwitch> &prev,
-	uint32_t id) const
+shared_ptr<NetTopology> NetTopology::withoutHost(uint32_t id) const
 {
-	prev[id] = NetSwitch(id);
+
+}
+
+shared_ptr<NetTopology> NetTopology::withLink(const NetLink &link) const
+{
+
+}
+
+shared_ptr<NetTopology> NetTopology::withoutLink(const NetLink &link) const
+{
+
+}
+
+
+map<uint32_t, NetSwitch> NetTopology::addSwitch(map<uint32_t, NetSwitch> prev, uint32_t id) const
+{
+	prev.insert({id, NetSwitch(id)});
 	return prev;
 }
 
-map<uint32_t, NetLink> NetTopology::removeSwitch(const map<uint32_t, NetSwitch> &prev,
-	uint32_t id) const
+map<uint32_t, NetSwitch> NetTopology::removeSwitch(map<uint32_t, NetSwitch> prev, uint32_t id) const
 {
 	prev.erase(id);
 	return prev;

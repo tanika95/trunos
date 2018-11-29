@@ -1,4 +1,5 @@
 #include "NetSwitch.hh"
+#include "Common.hh"
 
 using namespace std;
 
@@ -9,7 +10,14 @@ NetSwitch::NetSwitch(uint32_t id)
 NetSwitch::NetSwitch(uint32_t id, const map<uint32_t, NetLink> &links)
 	:  id(id), links(links)
 {
-	links[added.port(id)] = added;
+}
+
+void NetSwitch::log() const
+{
+	LOG(INFO) << "------Switch----"<< id << "-----------" ;
+	for (const auto &link : links) {
+		link.second.log();
+	}
 }
 
 NetSwitch NetSwitch::withLink(const NetLink &link) const
@@ -28,15 +36,13 @@ NetSwitch NetSwitch::withoutPort(uint32_t port) const
 	return NetSwitch(id, removeLink(links, port));
 }
 
-map<uint32_t, NetLink> NetSwitch::addLink(const map<uint32_t, NetLink> &prev,
-	const NetLink &link) const
+map<uint32_t, NetLink> NetSwitch::addLink(map<uint32_t, NetLink> prev, const NetLink &link) const
 {
-	prev[link.port(id)] = link;
+	prev.insert({link.port(id), link});
 	return prev;
 }
 
-map<uint32_t, NetLink> NetSwitch::removeLink(const map<uint32_t, NetLink> &prev,
-	uint32_t port) const
+map<uint32_t, NetLink> NetSwitch::removeLink(map<uint32_t, NetLink> prev, uint32_t port) const
 {
 	prev.erase(port);
 	return prev;

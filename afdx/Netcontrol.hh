@@ -1,7 +1,11 @@
 #pragma once
 #include "Application.hh"
+
+#include <memory>
 #include "Loader.hh"
 #include "Switch.hh"
+
+#include "NetTopology.hh"
 
 
 class Netcontrol : public Application
@@ -14,5 +18,7 @@ public:
 private:
 	void switchDiscovered(Switch *sw);
 	void switchBroken(Switch *sw);
+
+	std::shared_ptr<NetTopology> topo;
 
 };
