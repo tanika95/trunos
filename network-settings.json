@@ -4,7 +4,8 @@
     "services": [
         "link-discovery",
         "switch-manager",
-	"netcontrol"
+	"netcontrol",
+        "dropall"
     ],
 
     "tables": {
@@ -28,7 +29,8 @@
 
     "maple": {
           "pipeline": [
-             "link-discovery"
+             "link-discovery",
+             "dropall"
          ]
     },
 
