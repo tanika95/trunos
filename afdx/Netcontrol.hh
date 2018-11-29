@@ -12,7 +12,7 @@ public:
 	void init(Loader* loader, const Config& config) override;
 
 private:
-	switchDiscovered(Switch *sw);
-	switchBroken(Switch *sw);
+	void switchDiscovered(Switch *sw);
+	void switchBroken(Switch *sw);
 
 };
