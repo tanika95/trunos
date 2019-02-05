@@ -9,29 +9,18 @@ NetHost::NetHost(uint32_t id)
 	:  id(id)
 {}
 
-NetHost::NetHost(uint32_t id, const vector<uint32_t> &switches)
-	:  id(id), switches(switches)
+void NetHost::log() const
 {
 }
 
-NetHost NetHost::withLink(uint32_t toid) const
+NetHost &NetHost::withLink(uint32_t toid)
 {
-	return NetHost(id, addLink(switches, toid));
+	switches.push_back(toid);
+	return *this;
 }
 
-NetHost NetHost::withoutLink(uint32_t toid) const
+NetHost &NetHost::withoutLink(uint32_t toid)
 {
-	return NetHost(id, removeLink(switches, toid));
-}
-
-vector<uint32_t> NetHost::addLink(vector<uint32_t> prev, uint32_t toid) const
-{
-	prev.push_back(toid);
-	return prev;
-}
-
-vector<uint32_t> NetHost::removeLink(vector<uint32_t> prev, uint32_t toid) const
-{
-	prev.erase(find(prev.begin(), prev.end(), toid));
-	return prev;
+	switches.erase(find(switches.begin(), switches.end(), toid));
+	return *this;
 }

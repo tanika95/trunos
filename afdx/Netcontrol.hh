@@ -19,6 +19,6 @@ private:
 	void switchDiscovered(Switch *sw);
 	void switchBroken(Switch *sw);
 
-	std::shared_ptr<NetTopology> topo;
+	NetTopology topo;
 
 };
