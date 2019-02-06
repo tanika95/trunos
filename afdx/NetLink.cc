@@ -24,3 +24,13 @@ uint32_t NetLink::port(uint32_t sw) const
 	}
 	throw logic_error("Неверный id узла для канала");
 }
+
+uint32_t NetLink::from() const
+{
+	return sender;
+}
+
+uint32_t NetLink::to() const
+{
+	return receiver;
+}

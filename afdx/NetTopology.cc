@@ -43,10 +43,14 @@ NetTopology &NetTopology::withoutHost(uint32_t id)
 
 NetTopology &NetTopology::withLink(const NetLink &link)
 {
-
+	switches[link.sender()] = switches[link.sender()].withLink(link);
+	switches[link.receiver()] = switches[link.receiver()].withLink(link);
+	return *this;
 }
 
 NetTopology &NetTopology::withoutLink(const NetLink &link)
 {
-
+	switches[link.sender()] = switches[link.sender()].withoutLink(link);
+	switches[link.receiver()] = switches[link.receiver()].withoutLink(link);
+	return *this;
 }
