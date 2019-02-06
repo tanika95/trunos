@@ -12,6 +12,9 @@ void NetTopology::log() const
 	for (const auto &swtch : switches) {
 		swtch.second.log();
 	}
+	for (const auto &host : hosts) {
+		host.second.log();
+	}
 }
 
 NetTopology &NetTopology::withSwitch(uint32_t id)
@@ -28,12 +31,14 @@ NetTopology &NetTopology::withoutSwitch(uint32_t id)
 
 NetTopology &NetTopology::withHost(uint32_t id)
 {
-
+	hosts.insert({id, NetHost(id)});
+	return *this;
 }
 
 NetTopology &NetTopology::withoutHost(uint32_t id)
 {
-
+	hosts.erase(id);
+	return *this;
 }
 
 NetTopology &NetTopology::withLink(const NetLink &link)
