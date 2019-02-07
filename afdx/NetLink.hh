@@ -1,8 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-class NetLink
-{
+class NetLink {
 public:
 	NetLink(uint32_t sender, uint32_t sport, uint32_t receiver, uint32_t rport);
 

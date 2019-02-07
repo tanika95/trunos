@@ -27,10 +27,9 @@ using namespace runos;
 
 void Dropall::init(Loader *loader, const Config &)
 {
-    auto maple = Maple::get(loader);
+	auto maple = Maple::get(loader);
 
-    maple->registerHandler("dropall",
-        [=](Packet& pkt, FlowPtr, Decision decision) {
+	maple->registerHandler("dropall", [=](Packet& pkt, FlowPtr, Decision decision) {
                 return decision.drop();
-    });
+    	});
 }

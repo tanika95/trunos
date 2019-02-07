@@ -6,9 +6,7 @@
 #include "NetLink.hh"
 #include "NetSwitch.hh"
 
-
-class NetTopology
-{
+class NetTopology {
 public:
 	NetTopology();
 

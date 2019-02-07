@@ -5,8 +5,7 @@
 
 #include "Vl.hh"
 
-class VlConfig
-{
+class VlConfig {
 public:
 	VlConfig(const std::string &file);
 	VlSet dataflows();
