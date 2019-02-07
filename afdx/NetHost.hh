@@ -11,6 +11,7 @@ public:
 	NetHost &withoutLink(uint32_t toid);
 
 	void log() const;
+	uint32_t linksAmount() const;
 
 private:
 	uint32_t id;

@@ -3,8 +3,28 @@
 
 using namespace std;
 
-NetTopology::NetTopology()
-{}
+NetTopology::NetTopology(const NetInfo &info)
+	: info(info)
+{
+}
+
+bool NetTopology::isFull() const
+{
+	return switches.size() == info.switches
+		&& hosts.size() == info.hosts
+		&& linksAmount() == info.links;
+}
+
+uint32_t NetTopology::linksAmount() const
+{
+	uint32_t links = 0;
+	for (const auto &swtch : switches) {
+		links += swtch.linksAmount();
+	}
+	for (const auto &host : hosts) {
+		links += host.linksAmount();
+	}
+}
 
 void NetTopology::log() const
 {
@@ -44,13 +64,11 @@ NetTopology &NetTopology::withoutHost(uint32_t id)
 NetTopology &NetTopology::withLink(const NetLink &link)
 {
 	switches[link.sender()] = switches[link.sender()].withLink(link);
-	switches[link.receiver()] = switches[link.receiver()].withLink(link);
 	return *this;
 }
 
 NetTopology &NetTopology::withoutLink(const NetLink &link)
 {
 	switches[link.sender()] = switches[link.sender()].withoutLink(link);
-	switches[link.receiver()] = switches[link.receiver()].withoutLink(link);
 	return *this;
 }

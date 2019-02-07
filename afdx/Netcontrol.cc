@@ -13,6 +13,9 @@ void Netcontrol::init(Loader *loader, const Config &config)
     	LOG(INFO) << "Netcontrol init";
     	auto table = ctrl->getTable("netcontrol");
 
+	auto vlconf = VlConfig("path");
+	topo = NetTopology(vlconf->info());
+
     	auto swmanager = SwitchManager::get(loader);
     	connect(
             	swmanager, &SwitchManager::switchDiscovered,

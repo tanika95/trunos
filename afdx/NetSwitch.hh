@@ -12,6 +12,7 @@ public:
 	NetSwitch &withoutPort(uint32_t port);
 
 	void log() const;
+	uint32_t linksAmount() const;
 
 private:
 	uint32_t id;

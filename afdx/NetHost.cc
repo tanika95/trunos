@@ -21,6 +21,11 @@ void NetHost::log() const
 
 }
 
+uint32_t NetHost::linksAmount() const
+{
+	return switches.size();
+}
+
 NetHost &NetHost::withLink(uint32_t toid)
 {
 	switches.push_back(toid);

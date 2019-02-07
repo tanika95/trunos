@@ -20,5 +20,4 @@ private:
 	void switchBroken(Switch *sw);
 
 	NetTopology topo;
-
 };

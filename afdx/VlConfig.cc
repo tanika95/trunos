@@ -31,6 +31,15 @@ VlSet VlConfig::dataflows() const
 	return vls;
 }
 
+NetInfo VlConfig::info() const
+{
+	NetInfo info;
+        info.switches = inf.second.get<uint32_t>("switches");
+	info.links = inf.second.get<uint32_t>("links");
+	info.hosts = inf.second.get<uint32_t>("hosts");
+	return info;
+}
+
 BandwidthInfo VlConfig::banwidth() const
 {
 	map<LinkInfo, double> bdw;

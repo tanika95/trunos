@@ -15,6 +15,11 @@ void NetSwitch::log() const
 	}
 }
 
+uint32_t NetSwitch::linksAmount() const
+{
+	return links.size();
+}
+
 NetSwitch &NetSwitch::withLink(const NetLink &link)
 {
 	links.insert({link.port(id), link});
