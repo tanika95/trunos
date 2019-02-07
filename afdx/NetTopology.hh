@@ -6,31 +6,24 @@
 #include "NetLink.hh"
 #include "NetSwitch.hh"
 
-
-class NetTopology
-{
+class NetTopology {
 public:
-	NetTopology();
-	NetTopology(
-		const std::map<uint32_t, NetHost> &hosts,
-		const std::map<uint32_t, NetSwitch> &switches
-	);
+	NetTopology(const NetInfo &info);
 
-	std::shared_ptr<NetTopology> withSwitch(uint32_t id) const;
-	std::shared_ptr<NetTopology> withoutSwitch(uint32_t id) const;
-	std::shared_ptr<NetTopology> withHost(uint32_t id) const;
-	std::shared_ptr<NetTopology> withoutHost(uint32_t id) const;
-	std::shared_ptr<NetTopology> withLink(const NetLink &link) const;
-	std::shared_ptr<NetTopology> withoutLink(const NetLink &link) const;
+	NetTopology &withSwitch(uint32_t id);
+	NetTopology &withoutSwitch(uint32_t id);
+	NetTopology &withHost(uint32_t id);
+	NetTopology &withoutHost(uint32_t id);
+	NetTopology &withLink(const NetLink &link);
+	NetTopology &withoutLink(const NetLink &link);
 
 	void log() const;
+	bool isFull() const;
 
 private:
-	std::map<uint32_t, NetSwitch> addSwitch(std::map<uint32_t, NetSwitch> prev,
-		uint32_t id) const;
-	std::map<uint32_t, NetSwitch> removeSwitch(std::map<uint32_t, NetSwitch> prev,
-		uint32_t id) const;
+	uint32_t linksAmount() const;
 
-	const std::map<uint32_t, NetHost> hosts;
-	const std::map<uint32_t, NetSwitch> switches;
+	std::map<uint32_t, NetHost> hosts;
+	std::map<uint32_t, NetSwitch> switches;
+	const NetInfo info;
 };

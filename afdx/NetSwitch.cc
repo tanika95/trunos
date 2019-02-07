@@ -7,11 +7,6 @@ NetSwitch::NetSwitch(uint32_t id)
 	:  id(id)
 {}
 
-NetSwitch::NetSwitch(uint32_t id, const map<uint32_t, NetLink> &links)
-	:  id(id), links(links)
-{
-}
-
 void NetSwitch::log() const
 {
 	LOG(INFO) << "------Switch----"<< id << "-----------" ;
@@ -20,30 +15,26 @@ void NetSwitch::log() const
 	}
 }
 
-NetSwitch NetSwitch::withLink(const NetLink &link) const
+uint32_t NetSwitch::linksAmount() const
 {
-	return NetSwitch(id, addLink(links, link));
+	return links.size();
 }
 
-NetSwitch NetSwitch::withoutLink(const NetLink &link) const
+NetSwitch &NetSwitch::withLink(const NetLink &link)
+{
+	links.insert({link.port(id), link});
+	return *this;
+}
+
+NetSwitch &NetSwitch::withoutLink(const NetLink &link)
 {
 	const auto port = link.port(id);
-	return NetSwitch(id, removeLink(links, port));
+	links.erase(port);
+	return *this;
 }
 
-NetSwitch NetSwitch::withoutPort(uint32_t port) const
+NetSwitch &NetSwitch::withoutPort(uint32_t port)
 {
-	return NetSwitch(id, removeLink(links, port));
-}
-
-map<uint32_t, NetLink> NetSwitch::addLink(map<uint32_t, NetLink> prev, const NetLink &link) const
-{
-	prev.insert({link.port(id), link});
-	return prev;
-}
-
-map<uint32_t, NetLink> NetSwitch::removeLink(map<uint32_t, NetLink> prev, uint32_t port) const
-{
-	prev.erase(port);
-	return prev;
+	links.erase(port);
+	return *this;
 }

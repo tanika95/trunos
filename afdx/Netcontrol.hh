@@ -25,6 +25,6 @@ protected slots:
 	void linkDiscovered(switch_and_port from, switch_and_port to);
 
 private:
-	std::shared_ptr<NetTopology> topo;
 
+	NetTopology topo;
 };

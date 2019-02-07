@@ -1,6 +1,7 @@
 #include "NetHost.hh"
 
 #include <algorithm>
+#include <sstream>
 #include "Common.hh"
 
 using namespace std;
@@ -9,29 +10,30 @@ NetHost::NetHost(uint32_t id)
 	:  id(id)
 {}
 
-NetHost::NetHost(uint32_t id, const vector<uint32_t> &switches)
-	:  id(id), switches(switches)
+void NetHost::log() const
 {
+	LOG(INFO) << "------Host----"<< id << "-----------" ;
+	ostringstream ss;
+	for (const auto &swtch : switches) {
+		ss << swtch << ' ';
+	}
+	LOG(INFO) << "Connected to: " << ss.str();
+
 }
 
-NetHost NetHost::withLink(uint32_t toid) const
+uint32_t NetHost::linksAmount() const
 {
-	return NetHost(id, addLink(switches, toid));
+	return switches.size();
 }
 
-NetHost NetHost::withoutLink(uint32_t toid) const
+NetHost &NetHost::withLink(uint32_t toid)
 {
-	return NetHost(id, removeLink(switches, toid));
+	switches.push_back(toid);
+	return *this;
 }
 
-vector<uint32_t> NetHost::addLink(vector<uint32_t> prev, uint32_t toid) const
+NetHost &NetHost::withoutLink(uint32_t toid)
 {
-	prev.push_back(toid);
-	return prev;
-}
-
-vector<uint32_t> NetHost::removeLink(vector<uint32_t> prev, uint32_t toid) const
-{
-	prev.erase(find(prev.begin(), prev.end(), toid));
-	return prev;
+	switches.erase(find(switches.begin(), switches.end(), toid));
+	return *this;
 }

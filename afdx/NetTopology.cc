@@ -3,14 +3,28 @@
 
 using namespace std;
 
-NetTopology::NetTopology()
-{}
+NetTopology::NetTopology(const NetInfo &info)
+	: info(info)
+{
+}
 
-NetTopology::NetTopology(
-	const map<uint32_t, NetHost> &hosts,
-	const map<uint32_t, NetSwitch> &switches
-) : hosts(hosts), switches(switches)
-{}
+bool NetTopology::isFull() const
+{
+	return switches.size() == info.switches
+		&& hosts.size() == info.hosts
+		&& linksAmount() == info.links;
+}
+
+uint32_t NetTopology::linksAmount() const
+{
+	uint32_t links = 0;
+	for (const auto &swtch : switches) {
+		links += swtch.linksAmount();
+	}
+	for (const auto &host : hosts) {
+		links += host.linksAmount();
+	}
+}
 
 void NetTopology::log() const
 {
@@ -18,47 +32,43 @@ void NetTopology::log() const
 	for (const auto &swtch : switches) {
 		swtch.second.log();
 	}
+	for (const auto &host : hosts) {
+		host.second.log();
+	}
 }
 
-shared_ptr<NetTopology> NetTopology::withSwitch(uint32_t id) const
+NetTopology &NetTopology::withSwitch(uint32_t id)
 {
-	return make_shared<NetTopology>(hosts, addSwitch(switches, id));
+	switches.insert({id, NetSwitch(id)});
+	return *this;
 }
 
-shared_ptr<NetTopology> NetTopology::withoutSwitch(uint32_t id) const
+NetTopology &NetTopology::withoutSwitch(uint32_t id)
 {
-	return make_shared<NetTopology>(hosts, removeSwitch(switches, id));
+	switches.erase(id);
+	return *this;
 }
 
-shared_ptr<NetTopology> NetTopology::withHost(uint32_t id) const
+NetTopology &NetTopology::withHost(uint32_t id)
 {
-
+	hosts.insert({id, NetHost(id)});
+	return *this;
 }
 
-shared_ptr<NetTopology> NetTopology::withoutHost(uint32_t id) const
+NetTopology &NetTopology::withoutHost(uint32_t id)
 {
-
+	hosts.erase(id);
+	return *this;
 }
 
-shared_ptr<NetTopology> NetTopology::withLink(const NetLink &link) const
+NetTopology &NetTopology::withLink(const NetLink &link)
 {
-
+	switches[link.sender()] = switches[link.sender()].withLink(link);
+	return *this;
 }
 
-shared_ptr<NetTopology> NetTopology::withoutLink(const NetLink &link) const
+NetTopology &NetTopology::withoutLink(const NetLink &link)
 {
-
-}
-
-
-map<uint32_t, NetSwitch> NetTopology::addSwitch(map<uint32_t, NetSwitch> prev, uint32_t id) const
-{
-	prev.insert({id, NetSwitch(id)});
-	return prev;
-}
-
-map<uint32_t, NetSwitch> NetTopology::removeSwitch(map<uint32_t, NetSwitch> prev, uint32_t id) const
-{
-	prev.erase(id);
-	return prev;
+	switches[link.sender()] = switches[link.sender()].withoutLink(link);
+	return *this;
 }
