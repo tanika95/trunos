@@ -16,10 +16,10 @@ VlConfig::VlConfig(const string &file)
 	read_xml(file, tree);
 }
 
-VlSet VlConfig::dataflows()
+VlSet VlConfig::dataflows() const
 {
 	VlSet vls;
-	for (const auto &vl : tree.get_child("links")) {
+	for (const auto &vl : tree.get_child("vls")) {
         	auto id = vl.second.get<uint32_t>("id");
 		auto sender = vl.second.get<uint32_t>("sender");
 		auto reciever = vl.second.get<uint32_t>("reciever");
@@ -29,4 +29,16 @@ VlSet VlConfig::dataflows()
 		vls.push_back(Vl(id, sender, reciever, Sla(bag, lmax, jitt)));
 	}
 	return vls;
+}
+
+BandwidthInfo VlConfig::banwidth() const
+{
+	map<LinkInfo, double> bdw;
+	for (const auto &l : tree.get_child("links")) {
+		auto sender = l.second.get<uint32_t>("sender");
+		auto reciever = l.second.get<uint32_t>("reciever");
+		auto bw = l.second.get<double>("bw");
+		bdw.insert({{sender, receiver}, NetHost(id)});
+	}
+	return bdw;
 }
