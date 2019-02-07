@@ -2,6 +2,7 @@
 #include "Application.hh"
 
 #include <memory>
+#include "LinkDiscovery.hh"
 #include "Loader.hh"
 #include "Switch.hh"
 
@@ -10,6 +11,7 @@
 
 class Netcontrol : public Application
 {
+	Q_OBJECT
 	SIMPLE_APPLICATION(Netcontrol, "netcontrol")
 
 public:
@@ -19,6 +21,10 @@ private:
 	void switchDiscovered(Switch *sw);
 	void switchBroken(Switch *sw);
 
+protected slots:
+	void linkDiscovered(switch_and_port from, switch_and_port to);
+
+private:
 	std::shared_ptr<NetTopology> topo;
 
 };

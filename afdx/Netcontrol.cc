@@ -23,6 +23,12 @@ void Netcontrol::init(Loader *loader, const Config &config)
             	swmanager, &SwitchManager::switchDown,
             	this, &Netcontrol::switchBroken
     	);
+
+        auto lmanager = ILinkDiscovery::get(loader);
+        connect(
+                lmanager, SIGNAL(linkDiscovered(switch_and_port, switch_and_port)),
+                this, SLOT(linkDiscovered(switch_and_port, switch_and_port))
+        );
 }
 
 void Netcontrol::switchDiscovered(Switch *sw)
@@ -37,4 +43,10 @@ void Netcontrol::switchBroken(Switch *sw)
         LOG(INFO) << "Switch " << sw->id() << " down";
         topo = topo->withoutSwitch(sw->id());
         topo->log();
+}
+
+void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
+{
+        LOG(INFO) << "Link discovered";
+        topo = topo->withLink(NetLink(from.dpid, from.port, to.dpid, to.port));
 }
