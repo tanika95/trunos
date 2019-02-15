@@ -13,7 +13,7 @@ NetSwitch::NetSwitch()
 
 void NetSwitch::log() const
 {
-	cout << "------Switch----"<< id << "-----------"  << endl;
+	LOG(INFO) << "------Switch----"<< id << "-----------" ;
 	for (const auto &link : links) {
 		link.second.log();
 	}

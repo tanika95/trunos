@@ -29,7 +29,7 @@ uint32_t NetTopology::linksAmount() const
 
 void NetTopology::log() const
 {
-	cout << "Network" << endl;
+	LOG(INFO) << "Network";
 	for (const auto &swtch : switches) {
 		swtch.second.log();
 	}

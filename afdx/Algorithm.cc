@@ -15,12 +15,12 @@ Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo)
 
 VlSet Algorithm::run()
 {
-	cout << "Algorithm started";
+	LOG(INFO) << "Algorithm started";
 	try {
 		const auto vls = baseStep(links);
 		return vls;
 	} catch(const std::exception &e) {
-		cout << "Base step failed";
+		LOG(INFO) << "Base step failed";
 		const auto vls = additionalStep();
 		return vls;
 	}
@@ -28,7 +28,7 @@ VlSet Algorithm::run()
 
 VlSet Algorithm::initial()
 {
-	cout << "Initial algorithm started";
+	LOG(INFO) << "Initial algorithm started";
 	sort(links.begin(), links.end(), vlbwsort);
 	for (auto link : links) {
 		link = searchPath(link, link.from(), link.to());
@@ -38,13 +38,13 @@ VlSet Algorithm::initial()
 
 VlSet Algorithm::baseStep(VlSet links)
 {
-	cout << "Base step started";
+	LOG(INFO) << "Base step started";
 	return links;
 }
 
 VlSet Algorithm::additionalStep()
 {
-	cout << "Additional step started";
+	LOG(INFO) << "Additional step started";
 	return {};
 }
 

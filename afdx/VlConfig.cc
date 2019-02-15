@@ -12,7 +12,7 @@ using namespace boost::property_tree;
 
 VlConfig::VlConfig(const string &file)
 {
-	cout << "Open VlConfig ";
+	LOG(INFO) << "Open VlConfig ";
 	read_xml(file, tree);
 }
 

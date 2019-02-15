@@ -10,7 +10,7 @@ using namespace std;
 void Netcontrol::init(Loader *loader, const Config &config)
 {
     	Controller* ctrl = Controller::get(loader);
-    	cout << "Netcontrol init";
+    	LOG(INFO) << "Netcontrol init";
     	auto table = ctrl->getTable("netcontrol");
 
 	auto vlconf = VlConfig("path");
@@ -35,20 +35,20 @@ void Netcontrol::init(Loader *loader, const Config &config)
 
 void Netcontrol::switchDiscovered(Switch *sw)
 {
-        cout << "Switch " << sw->id() << " up";
+        LOG(INFO) << "Switch " << sw->id() << " up";
         topo = topo.withSwitch(sw->id());
         topo.log();
 }
 
 void Netcontrol::switchBroken(Switch *sw)
 {
-        cout << "Switch " << sw->id() << " down";
+        LOG(INFO) << "Switch " << sw->id() << " down";
         topo = topo.withoutSwitch(sw->id());
         topo.log();
 }
 
 void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
 {
-        cout << "Link discovered";
+        LOG(INFO) << "Link discovered";
         topo = topo->withLink(NetLink(from.dpid, from.port, to.dpid, to.port));
 }
