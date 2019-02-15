@@ -10,6 +10,10 @@ NetHost::NetHost(uint32_t id)
 	:  id(id)
 {}
 
+NetHost::NetHost()
+	: NetHost(0)
+{}
+
 void NetHost::log() const
 {
 	LOG(INFO) << "------Host----"<< id << "-----------";

@@ -3,9 +3,12 @@
 #include <vector>
 #include "NetLink.hh"
 
+#define HOST_MASK 0xf00000
+
 class NetHost {
 public:
 	NetHost(uint32_t id);
+	NetHost();
 
 	NetHost &withLink(uint32_t toid);
 	NetHost &withoutLink(uint32_t toid);
