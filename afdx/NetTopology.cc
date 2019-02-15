@@ -19,16 +19,17 @@ uint32_t NetTopology::linksAmount() const
 {
 	uint32_t links = 0;
 	for (const auto &swtch : switches) {
-		links += swtch.linksAmount();
+		links += swtch.second.linksAmount();
 	}
 	for (const auto &host : hosts) {
-		links += host.linksAmount();
+		links += host.second.linksAmount();
 	}
+	return links;
 }
 
 void NetTopology::log() const
 {
-	LOG(INFO) << "Network";
+	cout << "Network" << endl;
 	for (const auto &swtch : switches) {
 		swtch.second.log();
 	}
@@ -63,12 +64,14 @@ NetTopology &NetTopology::withoutHost(uint32_t id)
 
 NetTopology &NetTopology::withLink(const NetLink &link)
 {
-	switches[link.sender()] = switches[link.sender()].withLink(link);
+	switches[link.from()] = switches[link.from()].withLink(link);
+	switches[link.to()] = switches[link.to()].withLink(link);
 	return *this;
 }
 
 NetTopology &NetTopology::withoutLink(const NetLink &link)
 {
-	switches[link.sender()] = switches[link.sender()].withoutLink(link);
+	switches[link.from()] = switches[link.from()].withoutLink(link);
+	switches[link.to()] = switches[link.to()].withoutLink(link);
 	return *this;
 }

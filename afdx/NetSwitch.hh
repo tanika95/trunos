@@ -6,6 +6,7 @@
 class NetSwitch {
 public:
 	NetSwitch(uint32_t id);
+	NetSwitch();
 
 	NetSwitch &withLink(const NetLink &link);
 	NetSwitch &withoutLink(const NetLink &link);

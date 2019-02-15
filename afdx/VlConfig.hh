@@ -12,7 +12,7 @@ public:
 	VlConfig(const std::string &file);
 	VlSet dataflows() const;
 	BandwidthInfo banwidth() const;
-	NetInfo info() const
+	NetInfo info() const;
 
 private:
 	boost::property_tree::ptree tree;

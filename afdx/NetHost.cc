@@ -12,12 +12,12 @@ NetHost::NetHost(uint32_t id)
 
 void NetHost::log() const
 {
-	LOG(INFO) << "------Host----"<< id << "-----------" ;
+	cout << "------Host----"<< id << "-----------" << endl;
 	ostringstream ss;
 	for (const auto &swtch : switches) {
 		ss << swtch << ' ';
 	}
-	LOG(INFO) << "Connected to: " << ss.str();
+	cout << "Connected to: " << ss.str()  << endl;
 
 }
 

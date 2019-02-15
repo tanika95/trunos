@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Sla.hh"
 
 class Vl {
@@ -10,7 +11,7 @@ public:
 	uint32_t from() const;
 	uint32_t to() const;
 private:
-	uint32_t id;
+	uint32_t id [[maybe_unused]];
 	uint32_t sender;
 	uint32_t receiver;
 	Sla params;

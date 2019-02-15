@@ -6,7 +6,7 @@
 
 class Algorithm {
 public:
-	Algorithm(const VLSet &vls, const NetTopology &topo);
+	Algorithm(const VlSet &vls, const NetTopology &topo);
 	VlSet run();
 	VlSet initial();
 
@@ -16,5 +16,5 @@ private:
 
 	VlSet baseStep(VlSet links);
 	VlSet additionalStep();
-	Vl searchPath(const VL &vl, uint32_t from, uint32_t to);
+	Vl searchPath(const Vl &vl, uint32_t from, uint32_t to);
 };

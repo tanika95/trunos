@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include "NetHost.hh"
+#include "NetInfo.hh"
 #include "NetLink.hh"
 #include "NetSwitch.hh"
 
@@ -25,5 +26,5 @@ private:
 
 	std::map<uint32_t, NetHost> hosts;
 	std::map<uint32_t, NetSwitch> switches;
-	const NetInfo info;
+	NetInfo info;
 };

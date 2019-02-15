@@ -15,5 +15,5 @@ private:
 	uint32_t sport;
 	uint32_t receiver;
 	uint32_t rport;
-	double bandwidth;
+	double bandwidth [[maybe_unused]];
 };

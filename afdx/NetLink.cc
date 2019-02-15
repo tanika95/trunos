@@ -11,7 +11,7 @@ NetLink::NetLink(uint32_t sender, uint32_t sport, uint32_t receiver, uint32_t rp
 
 void NetLink::log() const
 {
-	LOG(INFO) << "link from " << sender << " to " << receiver;
+	cout << "link from " << sender << " to " << receiver << endl;
 }
 
 uint32_t NetLink::port(uint32_t sw) const

@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <boost/property_tree/xml_parser.hpp>
-#include "Common.h"
+#include "Common.hh"
 #include "Sla.hh"
 
 using namespace std;
@@ -12,7 +12,7 @@ using namespace boost::property_tree;
 
 VlConfig::VlConfig(const string &file)
 {
-	LOG(INFO) << "Open VlConfig ";
+	cout << "Open VlConfig ";
 	read_xml(file, tree);
 }
 
@@ -34,9 +34,9 @@ VlSet VlConfig::dataflows() const
 NetInfo VlConfig::info() const
 {
 	NetInfo info;
-        info.switches = inf.second.get<uint32_t>("switches");
-	info.links = inf.second.get<uint32_t>("links");
-	info.hosts = inf.second.get<uint32_t>("hosts");
+        info.switches = tree.get_child("switches").get_value<uint32_t>();
+	info.links = tree.get_child("links").get_value<uint32_t>();
+	info.hosts = tree.get_child("hosts").get_value<uint32_t>();
 	return info;
 }
 
@@ -45,9 +45,10 @@ BandwidthInfo VlConfig::banwidth() const
 	map<LinkInfo, double> bdw;
 	for (const auto &l : tree.get_child("links")) {
 		auto sender = l.second.get<uint32_t>("sender");
-		auto reciever = l.second.get<uint32_t>("reciever");
+		auto receiver = l.second.get<uint32_t>("reciever");
 		auto bw = l.second.get<double>("bw");
-		bdw.insert({{sender, receiver}, NetHost(id)});
+		bdw.insert({{sender, receiver}, bw});
 	}
-	return bdw;
+	auto def =  tree.get_child("default_bw").get_value<double>();
+	return BandwidthInfo(bdw, def);
 }

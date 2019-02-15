@@ -7,9 +7,13 @@ NetSwitch::NetSwitch(uint32_t id)
 	:  id(id)
 {}
 
+NetSwitch::NetSwitch()
+	:  NetSwitch(0)
+{}
+
 void NetSwitch::log() const
 {
-	LOG(INFO) << "------Switch----"<< id << "-----------" ;
+	cout << "------Switch----"<< id << "-----------"  << endl;
 	for (const auto &link : links) {
 		link.second.log();
 	}
