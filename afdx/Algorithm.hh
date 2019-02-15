@@ -6,13 +6,14 @@
 
 class Algorithm {
 public:
-	Algorithm(const VlSet &vls, const NetTopology &topo);
+	Algorithm(const VlSet &vls, const NetTopology &topo, const BandwidthInfo &bw);
 	VlSet run();
 	VlSet initial();
 
 private:
 	VlSet links;
 	NetTopology map;
+	BandwidthInfo bw;
 
 	VlSet baseStep(VlSet links);
 	VlSet additionalStep();
