@@ -10,8 +10,8 @@ using namespace boost;
 
 bool vlbwsort (Vl vl1, Vl vl2) { return vl1.bw() > vl2.bw(); }
 
-Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo)
-	: links(vls), map(topo)
+Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo, const BandwidthInfo &bw)
+	: links(vls), map(topo), bw(bw)
 {}
 
 VlSet Algorithm::run()

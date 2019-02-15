@@ -24,6 +24,11 @@ uint32_t NetSwitch::linksAmount() const
 	return links.size();
 }
 
+map<uint32_t, NetLink> NetSwitch::getLinks() const
+{
+	return links;
+}
+
 NetSwitch &NetSwitch::withLink(const NetLink &link)
 {
 	links.insert({link.port(id), link});

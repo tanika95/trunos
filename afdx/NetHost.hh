@@ -13,8 +13,10 @@ public:
 	NetHost &withLink(uint32_t toid);
 	NetHost &withoutLink(uint32_t toid);
 
+	uint32_t getId() const;
 	void log() const;
 	uint32_t linksAmount() const;
+	std::vector<uint32_t> getLinks() const;
 
 private:
 	uint32_t id;

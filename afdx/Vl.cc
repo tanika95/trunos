@@ -1,5 +1,7 @@
 #include "Vl.hh"
 
+#include "NetHost.hh"
+
 using namespace std;
 
 Vl::Vl(uint32_t vid, uint32_t sid, uint32_t rid, Sla params)
@@ -18,12 +20,10 @@ double Vl::bw() const
 
 uint32_t Vl::from() const
 {
-	// TODO : host mask
-	return sender;
+	return sender | HOST_MASK;
 }
 
 uint32_t Vl::to() const
 {
-	// TODO : host mask
-	return receiver;
+	return receiver | HOST_MASK;
 }

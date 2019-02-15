@@ -14,6 +14,11 @@ NetHost::NetHost()
 	: NetHost(0)
 {}
 
+uint32_t NetHost::getId() const
+{
+	return id | HOST_MASK;
+}
+
 void NetHost::log() const
 {
 	LOG(INFO) << "------Host----"<< id << "-----------";
@@ -28,6 +33,11 @@ void NetHost::log() const
 uint32_t NetHost::linksAmount() const
 {
 	return switches.size();
+}
+
+vector<uint32_t> NetHost::getLinks() const
+{
+	return switches;
 }
 
 NetHost &NetHost::withLink(uint32_t toid)

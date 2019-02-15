@@ -14,6 +14,7 @@ public:
 
 	void log() const;
 	uint32_t linksAmount() const;
+	std::map<uint32_t, NetLink> getLinks() const;
 
 private:
 	uint32_t id;
