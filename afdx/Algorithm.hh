@@ -9,6 +9,7 @@ public:
 	Algorithm(const VLSet &vls, const NetTopology &topo);
 	VlSet run();
 	VlSet initial();
+
 private:
 	VlSet links;
 	NetTopology map;

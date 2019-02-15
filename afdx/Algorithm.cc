@@ -8,6 +8,8 @@
 using namespace std;
 using namespace boost;
 
+bool vlbwsort (VL vl1, VL vl2) { return vl1.bw() > vl2.bw(); }
+bool vlidsort (VL vl1, VL vl2) { return vl1.id() < vl2.id(); }
 
 Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo)
 	: links(vls), map(topo)
@@ -29,7 +31,11 @@ VlSet Algorithm::run()
 VlSet Algorithm::initial()
 {
 	LOG(INFO) << "Initial algorithm started";
-	return {};
+	sort(links.begin(), links.end(), vlbwsort);
+	for (auto link : links) {
+		link = searchPath(link, link.from(), link.to());
+	}
+	return links;
 }
 
 VlSet Algorithm::baseStep()
