@@ -3,6 +3,7 @@
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/property_map/property_map.hpp>
+#include "Common.h"
 
 using namespace std;
 using namespace boost;
