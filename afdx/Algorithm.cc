@@ -19,7 +19,7 @@ VlSet Algorithm::run()
 {
 	LOG(INFO) << "Algorithm started";
 	try {
-		const auto vls = baseStep();
+		const auto vls = baseStep(links);
 		return vls;
 	} catch(const std::exception &e) {
 		LOG(INFO) << "Base step failed";
@@ -38,10 +38,10 @@ VlSet Algorithm::initial()
 	return links;
 }
 
-VlSet Algorithm::baseStep()
+VlSet Algorithm::baseStep(VlSet links)
 {
 	LOG(INFO) << "Base step started";
-	return {};
+	return links;
 }
 
 VlSet Algorithm::additionalStep()

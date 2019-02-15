@@ -14,7 +14,7 @@ private:
 	VlSet links;
 	NetTopology map;
 
-	VlSet baseStep();
+	VlSet baseStep(VlSet links);
 	VlSet additionalStep();
 	Vl searchPath(const VL &vl, uint32_t from, uint32_t to);
 };
