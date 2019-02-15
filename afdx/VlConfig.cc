@@ -43,12 +43,13 @@ NetInfo VlConfig::info() const
 BandwidthInfo VlConfig::banwidth() const
 {
 	map<LinkInfo, double> bdw;
-	for (const auto &l : tree.get_child("links")) {
+	for (const auto &l : tree.get_child("linksinfo")) {
 		auto sender = l.second.get<uint32_t>("sender");
 		auto receiver = l.second.get<uint32_t>("reciever");
 		auto bw = l.second.get<double>("bw");
 		bdw.insert({{sender, receiver}, bw});
 		bdw.insert({{receiver, sender}, bw});
+		cout << bdw.at({sender, receiver}) << endl;
 	}
 	auto def =  tree.get_child("default_bw").get_value<double>();
 	return BandwidthInfo(bdw, def);

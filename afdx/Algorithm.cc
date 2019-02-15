@@ -51,23 +51,22 @@ VlSet Algorithm::additionalStep()
 
 Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 {
-	Graph network = topo.graphForVL(vl, bw);
+	Graph network = map.graphForVL(vl, bw);
 	vector<Vertex> path(num_vertices(network), graph_traits<Graph>::null_vertex());
 	Vertex start = vertex(from, network);
 	vector<double> distances(num_vertices(network));
 
 	dijkstra_shortest_paths(network, start,
-		predecessor_map(&path[0]).distance_map(&distance[0]));
+		predecessor_map(&path[0]).distance_map(&distances[0]));
 	IndexMap index = get(vertex_index, network);
 
-	int v = to;
-	if (d[to] == 0) {
+	unsigned long v = to;
+	if (distances[to] < 0.0001) {
 		throw runtime_error("Путь не найден");
 	}
 	while (path[v] != v) {
-		int prev = v;
+		//int prev = v;
 		v = path[v];
-		map.decreaseBw(vl.bw(), v, prev);
 		if (path[v] == v) {
 			break;
 		}
