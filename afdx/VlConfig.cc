@@ -49,7 +49,6 @@ BandwidthInfo VlConfig::banwidth() const
 		auto bw = l.second.get<double>("bw");
 		bdw.insert({{sender, receiver}, bw});
 		bdw.insert({{receiver, sender}, bw});
-		cout << bdw.at({sender, receiver}) << endl;
 	}
 	auto def =  tree.get_child("default_bw").get_value<double>();
 	return BandwidthInfo(bdw, def);

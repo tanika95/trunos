@@ -1,5 +1,6 @@
 #include "Algorithm.hh"
-
+#include <chrono>
+#include <ctime>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/property_map/property_map.hpp>
@@ -31,9 +32,12 @@ VlSet Algorithm::initial()
 {
 	LOG(INFO) << "Initial algorithm started";
 	sort(links.begin(), links.end(), vlbwsort);
+	auto start = chrono::high_resolution_clock::now();
 	for (auto link : links) {
 		link = searchPath(link, link.from(), link.to());
 	}
+	auto end = chrono::high_resolution_clock::now();
+	cout << chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms\n";
 	return links;
 }
 
@@ -70,7 +74,7 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 		if (path[v] == v) {
 			break;
 		}
-		std::cout << index[v] << std::endl;
+		//std::cout << index[v] << std::endl;
 	}
 	return {};
 }
