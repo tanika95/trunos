@@ -1,10 +1,9 @@
 #include "Algorithm.hh"
-#include <chrono>
-#include <ctime>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/property_map/property_map.hpp>
 #include "Common.hh"
+#include "Timer.hh"
 
 using namespace std;
 using namespace boost;
@@ -32,12 +31,12 @@ VlSet Algorithm::initial()
 {
 	LOG(INFO) << "Initial algorithm started";
 	sort(links.begin(), links.end(), vlbwsort);
-	auto start = chrono::high_resolution_clock::now();
-	for (auto link : links) {
-		link = searchPath(link, link.from(), link.to());
+	{
+		Timer timer("Initial search");
+		for (auto link : links) {
+			link = searchPath(link, link.from(), link.to());
+		}
 	}
-	auto end = chrono::high_resolution_clock::now();
-	cout << chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << " ms\n";
 	return links;
 }
 
@@ -58,23 +57,31 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 	Graph network = map.graphForVL(vl, bw);
 	vector<Vertex> path(num_vertices(network), graph_traits<Graph>::null_vertex());
 	Vertex start = vertex(from, network);
-	vector<double> distances(num_vertices(network));
+	vector<double> distances(num_vertices(network), 0.0);
 
-	dijkstra_shortest_paths(network, start,
-		predecessor_map(&path[0]).distance_map(&distances[0]));
-	IndexMap index = get(vertex_index, network);
+	{
+		Timer timer("dejkstra search");
+		dijkstra_shortest_paths(network, start,
+			predecessor_map(&path[0]).distance_map(&distances[0]));
+	}
 
 	unsigned long v = to;
-	if (distances[to] < 0.0001) {
+	std::cout << to << std::endl;
+	if (distances[to] < 0.001 || v == path[v]) {
 		throw runtime_error("Путь не найден");
 	}
+	IndexMap index = get(vertex_index, network);
+	std::vector<int> route;
 	while (path[v] != v) {
 		//int prev = v;
 		v = path[v];
 		if (path[v] == v) {
 			break;
 		}
-		//std::cout << index[v] << std::endl;
+		route.push_back(index[v]);
+	}
+	for (auto r : route) {
+		std::cout << r << std::endl;
 	}
 	return {};
 }
