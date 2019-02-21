@@ -1,0 +1,46 @@
+<switches>4</switches>
+<links>10</links>
+<hosts>4</hosts>
+<default_bw>20</default_bw>
+<vls>
+	<vl>
+		<id>0</id>
+	        <sender>1</sender>
+	        <reciever>4</reciever>
+	        <bag>1</bag>
+	        <lmax>1000</lmax>
+	        <jitter>0.01</jitter>
+	</vl>
+</vls>
+<linksinfo>
+	<link>
+	        <sender>1</sender>
+	        <reciever>4</reciever>
+	        <bw>8</bw>
+	</link>
+	<link>
+	        <sender>2</sender>
+	        <reciever>3</reciever>
+	        <bw>8</bw>
+	</link>
+	<link>
+	        <sender>1</sender>
+	        <reciever>2</reciever>
+	        <bw>8</bw>
+	</link>
+	<link>
+	        <sender>1</sender>
+	        <reciever>3</reciever>
+	        <bw>8</bw>
+	</link>
+	<link>
+	        <sender>3</sender>
+	        <reciever>4</reciever>
+	        <bw>8</bw>
+	</link>
+	<link>
+	        <sender>2</sender>
+	        <reciever>4</reciever>
+	        <bw>8</bw>
+	</link>
+</linksinfo>
