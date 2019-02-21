@@ -27,6 +27,8 @@ public:
 	NetTopology &withoutHost(uint32_t id);
 	NetTopology &withLink(const NetLink &link);
 	NetTopology &withoutLink(const NetLink &link);
+	NetTopology &withHostLink(uint32_t hid, uint32_t sid);
+	NetTopology &withoutHostLink(uint32_t hid, uint32_t sid);
 
 	Graph graphForVL(const Vl &vl, const BandwidthInfo &bws) const;
 

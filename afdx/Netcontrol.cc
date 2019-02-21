@@ -47,7 +47,10 @@ void Netcontrol::switchDiscovered(Switch *sw)
 {
         LOG(INFO) << "Switch " << sw->id() << " up";
         topo = topo.withSwitch(sw->id());
-        topo = topo.withLink({sw->id(), 0, sw->id() | HOST_MASK, 0, 20});
+        // TODO: это фейк
+        topo = topo
+                .withLink({sw->id(), 0, sw->id() | HOST_MASK, 0, 20})
+                .withHostLink(sw->id(), sw->id());
         if (topo.isFull()) {
                 start();
         }
@@ -62,9 +65,10 @@ void Netcontrol::switchBroken(Switch *sw)
 void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
 {
         LOG(INFO) << "Link discovered";
-        topo = topo.withLink(
-                NetLink(from.dpid, from.port, to.dpid, to.port, bw.getBanwidth(from.dpid, to.dpid))
-        );
+        auto bdw = bw.getBanwidth(from.dpid, to.dpid);
+        topo = topo
+                .withLink({from.dpid, from.port, to.dpid, to.port, bdw})
+                .withLink({to.dpid, to.port, from.dpid, from.port, bdw});
         if (topo.isFull()) {
                 start();
         }

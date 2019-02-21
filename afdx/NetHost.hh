@@ -3,7 +3,11 @@
 #include <vector>
 #include "NetLink.hh"
 
-#define HOST_MASK 0xf00000
+// TODO: Зависит от размеров сети.
+// При неверной оценке неавдекватно вляет на время работы алгоритмов
+// можно заменить на + NetTopology::switches.size()
+// Но для тестовой среды и так сойдёт
+#define HOST_MASK 0x10
 
 class NetHost {
 public:

@@ -65,19 +65,14 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 			predecessor_map(&path[0]).distance_map(&distances[0]));
 	}
 
-	unsigned long v = to;
-	if (distances[to] < 0.001 || v == path[v]) {
+	unsigned long v = path[to];
+	if (v == path[v]) {
 		throw runtime_error("Путь не найден");
 	}
-	IndexMap index = get(vertex_index, network);
 	std::vector<int> route;
 	while (path[v] != v) {
-		//int prev = v;
+		route.push_back(v);
 		v = path[v];
-		if (path[v] == v) {
-			break;
-		}
-		route.push_back(index[v]);
 	}
 	for (auto r : route) {
 	 	LOG(INFO) << r;

@@ -65,22 +65,24 @@ NetTopology &NetTopology::withoutHost(uint32_t id)
 NetTopology &NetTopology::withLink(const NetLink &link)
 {
 	switches[link.from()] = switches[link.from()].withLink(link);
-	if (link.to() & HOST_MASK) {
-		hosts[link.to() ^ HOST_MASK] = hosts[link.to() ^ HOST_MASK].withLink(link.from());
-	} else {
-		switches[link.to()] = switches[link.to()].withLink(link);
-	}
 	return *this;
 }
 
 NetTopology &NetTopology::withoutLink(const NetLink &link)
 {
 	switches[link.from()] = switches[link.from()].withoutLink(link);
-	if (link.to() & HOST_MASK) {
-		hosts[link.to() ^ HOST_MASK] = hosts[link.to() ^ HOST_MASK].withoutLink(link.from());
-	} else {
-		switches[link.to()] = switches[link.to()].withoutLink(link);
-	}
+	return *this;
+}
+
+NetTopology &NetTopology::withHostLink(uint32_t hid, uint32_t sid)
+{
+	hosts[hid] = hosts[hid].withLink(sid);
+	return *this;
+}
+
+NetTopology &NetTopology::withoutHostLink(uint32_t hid, uint32_t sid)
+{
+	hosts[hid] = hosts[hid].withoutLink(sid);
 	return *this;
 }
 

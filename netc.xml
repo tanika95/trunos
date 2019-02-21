@@ -16,7 +16,7 @@
 	<link>
 	        <sender>1</sender>
 	        <reciever>4</reciever>
-	        <bw>8</bw>
+	        <bw>7</bw>
 	</link>
 	<link>
 	        <sender>2</sender>
@@ -26,7 +26,7 @@
 	<link>
 	        <sender>1</sender>
 	        <reciever>2</reciever>
-	        <bw>8</bw>
+	        <bw>1</bw>
 	</link>
 	<link>
 	        <sender>1</sender>
@@ -36,7 +36,7 @@
 	<link>
 	        <sender>3</sender>
 	        <reciever>4</reciever>
-	        <bw>8</bw>
+	        <bw>1</bw>
 	</link>
 	<link>
 	        <sender>2</sender>
