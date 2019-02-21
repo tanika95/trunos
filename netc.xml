@@ -11,6 +11,30 @@
 	        <lmax>1000</lmax>
 	        <jitter>0.01</jitter>
 	</vl>
+	<vl>
+		<id>1</id>
+	        <sender>1</sender>
+	        <reciever>4</reciever>
+	        <bag>1</bag>
+	        <lmax>500</lmax>
+	        <jitter>0.01</jitter>
+	</vl>
+	<vl>
+		<id>2</id>
+	        <sender>2</sender>
+	        <reciever>4</reciever>
+	        <bag>1</bag>
+	        <lmax>500</lmax>
+	        <jitter>0.01</jitter>
+	</vl>
+	<vl>
+		<id>4</id>
+		<sender>4</sender>
+		<reciever>1</reciever>
+		<bag>1</bag>
+		<lmax>1000</lmax>
+		<jitter>0.01</jitter>
+	</vl>
 </vls>
 <linksinfo>
 	<link>
@@ -21,7 +45,7 @@
 	<link>
 	        <sender>2</sender>
 	        <reciever>3</reciever>
-	        <bw>8</bw>
+	        <bw>12</bw>
 	</link>
 	<link>
 	        <sender>1</sender>
@@ -36,7 +60,7 @@
 	<link>
 	        <sender>3</sender>
 	        <reciever>4</reciever>
-	        <bw>1</bw>
+	        <bw>4</bw>
 	</link>
 	<link>
 	        <sender>2</sender>

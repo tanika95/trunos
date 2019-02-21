@@ -4,15 +4,20 @@
 
 using namespace std;
 
-BandwidthInfo::BandwidthInfo(const map<LinkInfo, double> &banwidth, double def)
-	: banwidth(banwidth), default_bw(def)
+BandwidthInfo::BandwidthInfo(const map<LinkInfo, double> &bandwidth, double def)
+	: bandwidth(bandwidth), default_bw(def)
 {}
 
-double BandwidthInfo::getBanwidth(uint32_t sender, uint32_t receiver) const
+double BandwidthInfo::getBandwidth(uint32_t sender, uint32_t receiver) const
 {
 	try {
-		return banwidth.at(make_pair(sender, receiver));
+		return bandwidth.at(make_pair(sender, receiver));
 	} catch (const out_of_range &ex) {
 		return default_bw;
 	}
+}
+
+void BandwidthInfo::decrease(const LinkInfo &link, double bw)
+{
+	bandwidth[link] -= bw;
 }

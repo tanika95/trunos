@@ -65,7 +65,7 @@ void Netcontrol::switchBroken(Switch *sw)
 void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
 {
         LOG(INFO) << "Link discovered";
-        auto bdw = bw.getBanwidth(from.dpid, to.dpid);
+        auto bdw = bw.getBandwidth(from.dpid, to.dpid);
         topo = topo
                 .withLink({from.dpid, from.port, to.dpid, to.port, bdw})
                 .withLink({to.dpid, to.port, from.dpid, from.port, bdw});

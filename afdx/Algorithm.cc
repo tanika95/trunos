@@ -59,11 +59,8 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 	Vertex start = vertex(from, network);
 	vector<double> distances(num_vertices(network), 0.0);
 
-	{
-		Timer timer("dejkstra search");
-		dijkstra_shortest_paths(network, start,
-			predecessor_map(&path[0]).distance_map(&distances[0]));
-	}
+	dijkstra_shortest_paths(network, start,
+		predecessor_map(&path[0]).distance_map(&distances[0]));
 
 	unsigned long v = path[to];
 	if (v == path[v]) {
@@ -72,7 +69,9 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 	std::vector<int> route;
 	while (path[v] != v) {
 		route.push_back(v);
+		auto next = v;
 		v = path[v];
+		bw.decrease({v, next}, vl.bw());
 	}
 	for (auto r : route) {
 	 	LOG(INFO) << r;

@@ -93,22 +93,20 @@ Graph NetTopology::graphForVL(const Vl &vl, const BandwidthInfo &bws) const
 	for (const auto &swtch : switches) {
 		const auto links = swtch.second.getLinks();
 		for (const auto &link : links) {
-			auto bw_left = bws.getBanwidth(link.second.from(), link.second.to());
+			auto bw_left = bws.getBandwidth(link.second.from(), link.second.to());
 			if (vl.bw() <= bw_left) {
 				edgs.push_back(Edge(link.second.from(), link.second.to()));
 				bdws.push_back(bw_left);
 			}
 		}
 	}
-	for (const auto &host : hosts) {
-		const auto links = host.second.getLinks();
-		const auto id = host.second.getId();
+	vector<uint32_t> ends = {vl.from() ^ HOST_MASK, vl.to() ^ HOST_MASK};
+	for (auto i : ends) {
+		auto host = hosts.at(i);
+		const auto links = host.getLinks();
 		for (const auto &link : links) {
-			auto bw_left = bws.getBanwidth(id, link);
-			if (vl.bw() <= bw_left) {
-				edgs.push_back(Edge(id, link));
-				bdws.push_back(bw_left);
-			}
+			edgs.push_back(Edge(host.getId(), link));
+			bdws.push_back(0.0);
 		}
 	}
 
