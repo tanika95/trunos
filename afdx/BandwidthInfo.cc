@@ -19,5 +19,7 @@ double BandwidthInfo::getBandwidth(uint32_t sender, uint32_t receiver) const
 
 void BandwidthInfo::decrease(const LinkInfo &link, double bw)
 {
-	bandwidth[link] -= bw;
+    	if (bandwidth.find(link) != bandwidth.end()) {
+		bandwidth[link] -= bw;
+	}
 }

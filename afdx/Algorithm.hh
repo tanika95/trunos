@@ -17,5 +17,5 @@ private:
 
 	VlSet baseStep(VlSet links);
 	VlSet additionalStep();
-	Vl searchPath(const Vl &vl, uint32_t from, uint32_t to);
+	std::vector<uint32_t> searchPath(const Vl &vl, uint32_t from, uint32_t to);
 };

@@ -34,7 +34,7 @@ VlSet Algorithm::initial()
 	{
 		Timer timer("Initial search");
 		for (auto link : links) {
-			link = searchPath(link, link.from(), link.to());
+			searchPath(link, link.from(), link.to());
 		}
 	}
 	return links;
@@ -52,7 +52,7 @@ VlSet Algorithm::additionalStep()
 	return {};
 }
 
-Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
+vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 {
 	Graph network = map.graphForVL(vl, bw);
 	vector<Vertex> path(num_vertices(network), graph_traits<Graph>::null_vertex());
@@ -66,13 +66,15 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 	if (v == path[v]) {
 		throw runtime_error("Путь не найден");
 	}
-	std::vector<int> route;
+	vector<uint32_t> route = {to};
+	bw.decrease({to, v}, vl.bw());
 	while (path[v] != v) {
 		route.push_back(v);
 		auto next = v;
 		v = path[v];
 		bw.decrease({v, next}, vl.bw());
 	}
+	route.push_back(from);
 	for (auto r : route) {
 	 	LOG(INFO) << r;
 	}
