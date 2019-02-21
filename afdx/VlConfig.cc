@@ -40,7 +40,7 @@ NetInfo VlConfig::info() const
 	return info;
 }
 
-BandwidthInfo VlConfig::banwidth() const
+BandwidthInfo VlConfig::bandwidth() const
 {
 	map<LinkInfo, double> bdw;
 	for (const auto &l : tree.get_child("linksinfo")) {

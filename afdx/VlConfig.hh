@@ -11,7 +11,7 @@ class VlConfig {
 public:
 	VlConfig(const std::string &file);
 	VlSet dataflows() const;
-	BandwidthInfo banwidth() const;
+	BandwidthInfo bandwidth() const;
 	NetInfo info() const;
 
 private:

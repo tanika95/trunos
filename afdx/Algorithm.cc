@@ -66,7 +66,6 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 	}
 
 	unsigned long v = to;
-	std::cout << to << std::endl;
 	if (distances[to] < 0.001 || v == path[v]) {
 		throw runtime_error("Путь не найден");
 	}
@@ -81,7 +80,7 @@ Vl Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 		route.push_back(index[v]);
 	}
 	for (auto r : route) {
-		std::cout << r << std::endl;
+	 	LOG(INFO) << r;
 	}
 	return {};
 }
