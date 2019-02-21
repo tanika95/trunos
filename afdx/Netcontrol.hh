@@ -29,6 +29,7 @@ private:
 
 protected slots:
 	void linkDiscovered(switch_and_port from, switch_and_port to);
+	void linkBroken(switch_and_port from, switch_and_port to);
 
 private:
 

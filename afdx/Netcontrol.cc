@@ -41,6 +41,16 @@ void Netcontrol::init(Loader *loader, const Config &config)
                 lmanager, SIGNAL(linkDiscovered(switch_and_port, switch_and_port)),
                 this, SLOT(linkDiscovered(switch_and_port, switch_and_port))
         );
+
+        connect(
+                lmanager, SIGNAL(linkDiscovered(switch_and_port, switch_and_port)),
+                this, SLOT(linkDiscovered(switch_and_port, switch_and_port))
+        );
+
+        connect(
+                lmanager, SIGNAL(linkBroken(switch_and_port, switch_and_port)),
+                this, SLOT(linkBroken(switch_and_port, switch_and_port))
+        );
 }
 
 void Netcontrol::switchDiscovered(Switch *sw)
@@ -69,6 +79,17 @@ void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
         topo = topo
                 .withLink({from.dpid, from.port, to.dpid, to.port, bdw})
                 .withLink({to.dpid, to.port, from.dpid, from.port, bdw});
+        if (topo.isFull()) {
+                start();
+        }
+}
+
+void Netcontrol::linkBroken(switch_and_port from, switch_and_port to)
+{
+        LOG(INFO) << "Link broken";
+        topo = topo
+                .withoutLink({from.dpid, from.port, to.dpid, to.port, 0.0})
+                .withoutLink({to.dpid, to.port, from.dpid, from.port, 0.0});
         if (topo.isFull()) {
                 start();
         }
