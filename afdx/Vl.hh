@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Sla.hh"
+#include "VlSwitch.hh"
 
 class Vl {
 public:
@@ -10,11 +11,15 @@ public:
 	double bw() const;
 	uint32_t from() const;
 	uint32_t to() const;
+
+	Vl &withRoute(const std::vector<VlSwitch> &r);
+
 private:
 	uint32_t id [[maybe_unused]];
 	uint32_t sender;
 	uint32_t receiver;
 	Sla params;
+	std::vector<VlSwitch> route;
 };
 
 typedef std::vector<Vl> VlSet;

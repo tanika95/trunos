@@ -86,7 +86,7 @@ NetTopology &NetTopology::withoutHostLink(uint32_t hid, uint32_t sid)
 	return *this;
 }
 
-Graph NetTopology::graphForVL(const Vl &vl, const BandwidthInfo &bws) const
+Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 {
 	vector<Edge> edgs;
 	vector<double> bdws;
@@ -115,4 +115,12 @@ Graph NetTopology::graphForVL(const Vl &vl, const BandwidthInfo &bws) const
 		bdws.data(),
 		switches.size() + hosts.size()
 	);
+}
+
+vector<VlSwitch> routeForVl(const vector<uint32_t> &route)
+{
+
+	for (uint32_t i = route.size() - 1; i >= 0; i--) {
+		
+	}
 }

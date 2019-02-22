@@ -75,8 +75,5 @@ vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 		bw.decrease({v, next}, vl.bw());
 	}
 	route.push_back(from);
-	for (auto r : route) {
-	 	LOG(INFO) << r;
-	}
-	return {};
+	return route;
 }

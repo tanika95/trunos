@@ -27,3 +27,9 @@ uint32_t Vl::to() const
 {
 	return receiver | HOST_MASK;
 }
+
+Vl &Vl::withRoute(const vector<VlSwitch> &r)
+{
+	route = r;
+	return *this;
+}
