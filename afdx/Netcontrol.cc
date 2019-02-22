@@ -43,11 +43,6 @@ void Netcontrol::init(Loader *loader, const Config &config)
         );
 
         connect(
-                lmanager, SIGNAL(linkDiscovered(switch_and_port, switch_and_port)),
-                this, SLOT(linkDiscovered(switch_and_port, switch_and_port))
-        );
-
-        connect(
                 lmanager, SIGNAL(linkBroken(switch_and_port, switch_and_port)),
                 this, SLOT(linkBroken(switch_and_port, switch_and_port))
         );
