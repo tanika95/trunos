@@ -2,6 +2,7 @@
 
 #include <map>
 #include "NetLink.hh"
+#include "VlSwitch.hh"
 
 class NetSwitch {
 public:

@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include "BandwidthInfo.hh"
@@ -10,6 +11,7 @@
 #include "NetLink.hh"
 #include "NetSwitch.hh"
 #include "Vl.hh"
+#include "VlSwitch.hh"
 
 typedef boost::adjacency_list<boost::listS, boost::vecS, boost::directedS,
 	boost::no_property, boost::property<boost::edge_weight_t, double> > Graph;
@@ -30,7 +32,8 @@ public:
 	NetTopology &withHostLink(uint32_t hid, uint32_t sid);
 	NetTopology &withoutHostLink(uint32_t hid, uint32_t sid);
 
-	Graph graphForVL(const Vl &vl, const BandwidthInfo &bws) const;
+	Graph graphForVl(const Vl &vl, const BandwidthInfo &bws) const;
+	std::vector<VlSwitch> routeForVl(const std::vector<uint32_t> &route);
 
 	void log() const;
 	bool isFull() const;
