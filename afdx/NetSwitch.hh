@@ -16,6 +16,7 @@ public:
 	void log() const;
 	uint32_t linksAmount() const;
 	std::map<uint32_t, NetLink> getLinks() const;
+	VlSwitch routeSwitch(uint32_t from, uint32_t to) const;
 
 private:
 	uint32_t id;

@@ -29,9 +29,21 @@ map<uint32_t, NetLink> NetSwitch::getLinks() const
 	return links;
 }
 
+VlSwitch NetSwitch::routeSwitch(uint32_t from, uint32_t to) const
+{
+	auto link = links.at(to);
+	return VlSwitch(id, links.at(to).port(from), links.at(to).port(id));
+}
+
+VlSwitch NetSwitch::borderSwitch(uint32_t to) const
+{
+	auto link = links.at(to);
+	return VlSwitch(id, 0, links.at(to).port(id));
+}
+
 NetSwitch &NetSwitch::withLink(const NetLink &link)
 {
-	links.insert({link.port(id), link});
+	links.insert({link.to(), link});
 	return *this;
 }
 
