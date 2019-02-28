@@ -28,6 +28,7 @@ VlSet VlConfig::dataflows() const
 		auto jitt = vl.second.get<double>("jitter");
 		vls.push_back(Vl(id, sender, reciever, Sla(bag, lmax, jitt)));
 	}
+	sort(vls.begin(), vls.end(), vlbwsort);
 	return vls;
 }
 
