@@ -1,5 +1,7 @@
 #include "Vl.hh"
 
+#include <sstream>
+#include "Common.hh"
 #include "NetHost.hh"
 
 using namespace std;
@@ -12,6 +14,19 @@ Vl::Vl(uint32_t vid, uint32_t sid, uint32_t rid, Sla params)
 Vl::Vl()
 {
 }
+
+void Vl::log() const
+{
+	LOG(INFO) << "vl " << id << " bw" << bw();
+	ostringstream ss;
+	ss << from << ' ';
+	for (const auto &sw : route) {
+		ss << sw.id << ' ';
+	}
+	ss << to;
+	LOG(INFO) << "Route: " << ss.str();
+}
+
 
 double Vl::bw() const
 {

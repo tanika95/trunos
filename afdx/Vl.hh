@@ -8,6 +8,8 @@ public:
 	Vl(uint32_t vid, uint32_t sid, uint32_t rid, Sla params);
 	Vl();
 
+	void log() const;
+
 	double bw() const;
 	uint32_t from() const;
 	uint32_t to() const;

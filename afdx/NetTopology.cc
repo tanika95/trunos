@@ -120,7 +120,10 @@ Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 vector<VlSwitch> routeForVl(const vector<uint32_t> &route)
 {
 	vector<VlSwitch> result;
-	for (uint32_t i = route.size() - 1; i >= 0; i--) {
-		result.push_back()
+	for (uint32_t i = route.size() - 2; i > 0; i--) {
+		result.push_back(
+			switches.at(route[i]).routeSwitch(route[i + 1], route[i - 1])
+		);
 	}
+	return result;
 }
