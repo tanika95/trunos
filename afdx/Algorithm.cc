@@ -52,7 +52,7 @@ VlSet Algorithm::additionalStep()
 
 vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 {
-	Graph network = map.graphForVL(vl, bw);
+	Graph network = map.graphForVl(vl, bw);
 	vector<Vertex> path(num_vertices(network), graph_traits<Graph>::null_vertex());
 	Vertex start = vertex(from, network);
 	vector<double> distances(num_vertices(network), 0.0);

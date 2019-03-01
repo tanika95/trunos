@@ -17,7 +17,7 @@ Vl::Vl()
 
 void Vl::log() const
 {
-	LOG(INFO) << "vl " << id << " bw" << bw();
+	LOG(INFO) << "vl " << id << " bw " << bw();
 	ostringstream ss;
 	ss << from << ' ';
 	for (const auto &sw : route) {
