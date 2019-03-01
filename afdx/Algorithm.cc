@@ -19,7 +19,7 @@ VlSet Algorithm::run()
 		const auto vls = baseStep(links);
 		return vls;
 	} catch(const std::exception &e) {
-		LOG(INFO) << "Base step failed";
+		LOG(INFO) << "Base step failed " << e.what();
 		const auto vls = additionalStep();
 		return vls;
 	}
@@ -28,12 +28,10 @@ VlSet Algorithm::run()
 VlSet Algorithm::initial()
 {
 	LOG(INFO) << "Initial algorithm started";
-	{
-		Timer timer("Initial search");
-		for (auto &link : links) {
-			auto path = searchPath(link, link.from(), link.to());
-			link = link.withRoute(map.routeForVl(path));
-		}
+	Timer timer("Initial search");
+	for (auto &link : links) {
+		auto path = searchPath(link, link.from(), link.to());
+		link = link.withRoute(map.routeForVl(path));
 	}
 	return links;
 }
@@ -41,7 +39,13 @@ VlSet Algorithm::initial()
 VlSet Algorithm::baseStep(VlSet links)
 {
 	LOG(INFO) << "Base step started";
-	return links;
+	Timer timer("Base step");
+	auto brokenmap = map.brokenVls(); // Нужен тип чтоб еще и узлы в которых сломано хранить
+	auto result = links;
+	for (auto &link : result) {
+
+	}
+	return result;
 }
 
 VlSet Algorithm::additionalStep()

@@ -117,7 +117,7 @@ Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 	);
 }
 
-vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route)
+vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route) const
 {
 	vector<VlSwitch> result;
 	for (uint32_t i = route.size() - 2; i > 0; i--) {
@@ -126,4 +126,9 @@ vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route)
 		);
 	}
 	return result;
+}
+
+vector<uint32_t> NetTopology::brokenVls(const VlSet &vls) const
+{
+	return vls;
 }

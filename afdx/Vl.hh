@@ -10,6 +10,7 @@ public:
 
 	void log() const;
 
+	uint32_t getId() const;
 	double bw() const;
 	uint32_t from() const;
 	uint32_t to() const;

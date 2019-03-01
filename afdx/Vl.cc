@@ -27,6 +27,10 @@ void Vl::log() const
 	LOG(INFO) << "Route: " << ss.str();
 }
 
+uint32_t Vl::getId() const
+{
+	return id;
+}
 
 double Vl::bw() const
 {

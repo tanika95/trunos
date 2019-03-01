@@ -33,7 +33,8 @@ public:
 	NetTopology &withoutHostLink(uint32_t hid, uint32_t sid);
 
 	Graph graphForVl(const Vl &vl, const BandwidthInfo &bws) const;
-	std::vector<VlSwitch> routeForVl(const std::vector<uint32_t> &route);
+	std::vector<VlSwitch> routeForVl(const std::vector<uint32_t> &route) const;
+	std::vector<uint32_t> brokenVls(const VlSet &vls) const;
 
 	void log() const;
 	bool isFull() const;
