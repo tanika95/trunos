@@ -25,5 +25,3 @@ private:
 };
 
 typedef std::vector<Vl> VlSet;
-
-bool vlbwsort (Vl vl1, Vl vl2) { return vl1.bw() > vl2.bw(); }

@@ -19,11 +19,11 @@ void Vl::log() const
 {
 	LOG(INFO) << "vl " << id << " bw " << bw();
 	ostringstream ss;
-	ss << from << ' ';
+	ss <<'h' << sender << ' ';
 	for (const auto &sw : route) {
 		ss << sw.id << ' ';
 	}
-	ss << to;
+	ss << 'h' << receiver;
 	LOG(INFO) << "Route: " << ss.str();
 }
 

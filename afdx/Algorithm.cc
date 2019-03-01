@@ -32,7 +32,7 @@ VlSet Algorithm::initial()
 		Timer timer("Initial search");
 		for (auto &link : links) {
 			auto path = searchPath(link, link.from(), link.to());
-			link = link.withRoute(topo.routeForVl(path));
+			link = link.withRoute(map.routeForVl(path));
 		}
 	}
 	return links;
