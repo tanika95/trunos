@@ -101,7 +101,7 @@ Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 		}
 	}
 	vector<uint32_t> ends = {vl.from() ^ HOST_MASK, vl.to() ^ HOST_MASK};
-	for (auto i : ends) {
+	for (const auto &i : ends) {
 		auto host = hosts.at(i);
 		const auto links = host.getLinks();
 		for (const auto &link : links) {
@@ -120,6 +120,10 @@ Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route) const
 {
 	vector<VlSwitch> result;
+	auto end = route.size() - 1;
+	if (!(route[end] & HOST_MASK)) {
+		result.push_back(switches.at(end).routeSwitch(route[end - 1], route[end - 1]));
+	}
 	for (uint32_t i = route.size() - 2; i > 0; i--) {
 		result.push_back(
 			switches.at(route[i]).routeSwitch(route[i + 1], route[i - 1])
@@ -128,7 +132,11 @@ vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route) const
 	return result;
 }
 
-vector<uint32_t> NetTopology::brokenVls(const VlSet &vls) const
+vector<VlState> NetTopology::brokenVls(const VlSet &vls) const
 {
-	return vls;
+	vector<VlState> states;
+	for (const auto &link: vls) {
+		states.push_back(vl.state(switches));
+	}
+	return states;
 }

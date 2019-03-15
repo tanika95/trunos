@@ -34,21 +34,41 @@ VlSwitch NetSwitch::routeSwitch(uint32_t from, uint32_t to) const
 	return VlSwitch(id, links.at(from).port(id), links.at(to).port(id));
 }
 
+bool NetSwitch::portOn(uint32_t port) const
+{
+	if (active_ports.find(port) != active_ports.end()) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool NetSwitch::linkOn(uint32_t to) const
+{
+	if (links.at(to) != links.end()) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 NetSwitch &NetSwitch::withLink(const NetLink &link)
 {
 	links.insert({link.to(), link});
+	active_ports.insert({link.port(id), link.to()});
 	return *this;
 }
 
 NetSwitch &NetSwitch::withoutLink(const NetLink &link)
 {
-	const auto port = link.port(id);
-	links.erase(port);
+	links.erase(link.to());
+	active_ports.erase(link.port(id));
 	return *this;
 }
 
 NetSwitch &NetSwitch::withoutPort(uint32_t port)
 {
-	links.erase(port);
+	links.erase(active_ports.at(port));
+	active_ports.erase(port);
 	return *this;
 }

@@ -36,16 +36,22 @@ VlSet Algorithm::initial()
 	return links;
 }
 
-VlSet Algorithm::baseStep(VlSet links)
+VlSet Algorithm::baseStep(VlSet vls)
 {
 	LOG(INFO) << "Base step started";
 	Timer timer("Base step");
-	auto brokenmap = map.brokenVls(); // Нужен тип чтоб еще и узлы в которых сломано хранить
-	auto result = links;
-	for (auto &link : result) {
-
+	const auto brokenmap = map.brokenVls(links);
+	i = 0;
+	for (auto &link : vls) {
+		if (link.getId() != brokenmap[i].id) {
+			throw logic_error("Несоответствие индексов вк с картой вк");
+		}
+		if (brokenmap[id].broken) {
+			auto path = searchPath(link, brokenmap[id].sedge, link.to());
+			link = link.withChangedRoute(map.routeForVl(path), brokenmap[id].sedge);
+		}
 	}
-	return result;
+	return vls;
 }
 
 VlSet Algorithm::additionalStep()

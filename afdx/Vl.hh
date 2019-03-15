@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 #include "Sla.hh"
+#include "NetSwitch.hh"
 #include "VlSwitch.hh"
+#include "VlState.hh"
 
 class Vl {
 public:
@@ -14,8 +16,10 @@ public:
 	double bw() const;
 	uint32_t from() const;
 	uint32_t to() const;
+	VlState state(const std::map<uint32_t, NetSwitch> &switches) const;
 
 	Vl &withRoute(const std::vector<VlSwitch> &r);
+	Vl &withChangedRoute(const std::vector<VlSwitch> &r, uint32_t edge);
 
 private:
 	uint32_t id [[maybe_unused]];

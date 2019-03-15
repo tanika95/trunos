@@ -15,7 +15,7 @@ private:
 	NetTopology map;
 	BandwidthInfo bw;
 
-	VlSet baseStep(VlSet links);
+	VlSet baseStep(VlSet vls);
 	VlSet additionalStep();
 	std::vector<uint32_t> searchPath(const Vl &vl, uint32_t from, uint32_t to);
 };

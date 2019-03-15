@@ -11,6 +11,7 @@
 #include "NetLink.hh"
 #include "NetSwitch.hh"
 #include "Vl.hh"
+#include "VlState.hh"
 #include "VlSwitch.hh"
 
 typedef boost::adjacency_list<boost::listS, boost::vecS, boost::directedS,
@@ -34,7 +35,7 @@ public:
 
 	Graph graphForVl(const Vl &vl, const BandwidthInfo &bws) const;
 	std::vector<VlSwitch> routeForVl(const std::vector<uint32_t> &route) const;
-	std::vector<uint32_t> brokenVls(const VlSet &vls) const;
+	std::vector<VlState> brokenVls(const VlSet &vls) const;
 
 	void log() const;
 	bool isFull() const;

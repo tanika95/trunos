@@ -17,8 +17,11 @@ public:
 	uint32_t linksAmount() const;
 	std::map<uint32_t, NetLink> getLinks() const;
 	VlSwitch routeSwitch(uint32_t from, uint32_t to) const;
+	bool portOn(uint32_t port) const;
+	bool linkOn(uint32_t to) const;
 
 private:
 	uint32_t id;
 	std::map<uint32_t, NetLink> links;
+	std::map<uint32_t, uint32_t> active_ports;
 };
