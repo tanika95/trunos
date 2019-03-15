@@ -45,7 +45,7 @@ bool NetSwitch::portOn(uint32_t port) const
 
 bool NetSwitch::linkOn(uint32_t to) const
 {
-	if (links.at(to) != links.end()) {
+	if (links.find(to) != links.end()) {
 		return true;
 	} else {
 		return false;

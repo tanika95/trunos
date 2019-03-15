@@ -56,7 +56,7 @@ VlState Vl::state(const map<uint32_t, NetSwitch> &switches) const
 	for (uint32_t i = 0; i < route.size() - 1; i++) {
 		if (switches.find(route[i].id) != switches.end()) {
 			const auto sw = switches.at(route[i].id);
-			if (!sw.portOn[route[i].rport]) {
+			if (!sw.portOn(route[i].rport)) {
 				return VlState(id, true, route[i].id);
 			}
 		} else {
@@ -64,6 +64,15 @@ VlState Vl::state(const map<uint32_t, NetSwitch> &switches) const
 		}
 	}
 	return VlState(id, false);
+}
+
+vector<uint32_t> Vl::switches() const
+{
+	vector<uint32_t> sw;
+	for (const auto &r : route) {
+		sw.push_back(r.id);
+	}
+	return sw;
 }
 
 Vl &Vl::withRoute(const vector<VlSwitch> &r)

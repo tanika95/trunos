@@ -23,3 +23,11 @@ void BandwidthInfo::decrease(const LinkInfo &link, double bw)
 		bandwidth[link] -= bw;
 	}
 }
+
+void BandwidthInfo::increase(const Vl &vl)
+{
+	const auto route = vl.switches();
+	for (uint32_t i = 0; i < route.size(); i++) {
+		bandwidth[{route[i], route[i + 1]}] += vl.bw();
+	}
+}

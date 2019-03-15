@@ -17,6 +17,7 @@ public:
 	uint32_t from() const;
 	uint32_t to() const;
 	VlState state(const std::map<uint32_t, NetSwitch> &switches) const;
+	std::vector<uint32_t> switches() const;
 
 	Vl &withRoute(const std::vector<VlSwitch> &r);
 	Vl &withChangedRoute(const std::vector<VlSwitch> &r, uint32_t edge);

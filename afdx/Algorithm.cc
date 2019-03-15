@@ -8,7 +8,7 @@
 using namespace std;
 using namespace boost;
 
-Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo, const BandwidthInfo &bw)
+Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo, BandwidthInfo &bw)
 	: links(vls), map(topo), bw(bw)
 {}
 
@@ -19,7 +19,7 @@ VlSet Algorithm::run()
 		const auto vls = baseStep(links);
 		return vls;
 	} catch(const std::exception &e) {
-		LOG(INFO) << "Base step failed " << e.what();
+		LOG(INFO) << "Base step failed: " << e.what();
 		const auto vls = additionalStep();
 		return vls;
 	}
@@ -41,15 +41,26 @@ VlSet Algorithm::baseStep(VlSet vls)
 	LOG(INFO) << "Base step started";
 	Timer timer("Base step");
 	const auto brokenmap = map.brokenVls(links);
+	int i = 0;
+	for (auto &link : vls) {
+		if (link.getId() != brokenmap[i].id) {
+			throw logic_error("Несоответствие индексов вк с картой вк");
+		}
+		if (brokenmap[i].broken) {
+			bw.increase(link);
+		}
+		i++;
+	}
 	i = 0;
 	for (auto &link : vls) {
 		if (link.getId() != brokenmap[i].id) {
 			throw logic_error("Несоответствие индексов вк с картой вк");
 		}
-		if (brokenmap[id].broken) {
-			auto path = searchPath(link, brokenmap[id].sedge, link.to());
-			link = link.withChangedRoute(map.routeForVl(path), brokenmap[id].sedge);
+		if (brokenmap[i].broken) {
+			auto path = searchPath(link, brokenmap[i].sedge, link.to());
+			link = link.withChangedRoute(map.routeForVl(path), brokenmap[i].sedge);
 		}
+		i++;
 	}
 	return vls;
 }

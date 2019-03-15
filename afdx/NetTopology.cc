@@ -135,7 +135,7 @@ vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route) const
 vector<VlState> NetTopology::brokenVls(const VlSet &vls) const
 {
 	vector<VlState> states;
-	for (const auto &link: vls) {
+	for (const auto &vl: vls) {
 		states.push_back(vl.state(switches));
 	}
 	return states;
