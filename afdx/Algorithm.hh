@@ -1,21 +1,27 @@
 #pragma once
-
+#include <vector>
 #include <boost/property_map/property_map.hpp>
 #include "NetTopology.hh"
 #include "Vl.hh"
+#include "VlState.h"
 
 class Algorithm {
 public:
-	Algorithm(const VlSet &vls, const NetTopology &topo, BandwidthInfo &bw);
+	Algorithm(const VlSet &vls, const NetTopology &topo, const BandwidthInfo &bw);
 	VlSet run();
 	VlSet initial();
 
 private:
 	VlSet links;
 	NetTopology map;
-	BandwidthInfo &bw;
+	BandwidthInfo bw;
+	const std::vector<VlState> brokenmap;
 
-	VlSet baseStep(VlSet vls);
+	VlSet baseStep(VlSet vls, BandwidthInfo bw, const std::vector<VlState> &brokenmap);
 	VlSet additionalStep();
-	std::vector<uint32_t> searchPath(const Vl &vl, uint32_t from, uint32_t to);
+
+	BandwidthInfo takeOffBroken(BandwidthInfo bw);
+	BandwidthInfo takeOffHeavy(BandwidthInfo bw);
+
+	std::vector<uint32_t> searchPath(const Vl &vl, uint32_t from, uint32_t to) const;
 };

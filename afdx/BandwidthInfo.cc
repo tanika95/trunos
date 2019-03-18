@@ -17,17 +17,43 @@ double BandwidthInfo::getBandwidth(uint32_t sender, uint32_t receiver) const
 	}
 }
 
-void BandwidthInfo::decrease(const LinkInfo &link, double bw)
+BandwidthInfo& BandwidthInfo::withVl(const Vl &vl)
 {
-    	if (bandwidth.find(link) != bandwidth.end()) {
-		bandwidth[link] -= bw;
+	const auto route = vl.switches();
+	for (uint32_t i = 0; i < route.size(); i++) {
+		bandwidth[{route[i], route[i + 1]}] -= vl.bw();
 	}
+	return *this;
 }
 
-void BandwidthInfo::increase(const Vl &vl)
+BandwidthInfo& BandwidthInfo::withoutVl(const Vl &vl)
 {
 	const auto route = vl.switches();
 	for (uint32_t i = 0; i < route.size(); i++) {
 		bandwidth[{route[i], route[i + 1]}] += vl.bw();
 	}
+	return *this;
+}
+
+BandwidthInfo& BandwidthInfo::withoutVlPart(const Vl &vl, uint32_t edge)
+{
+	const auto route = vl.switches();
+	bool broken = false;
+	for (uint32_t i = 0; i < route.size(); i++) {
+		if (route[i] == edge) {
+			broken = true;
+		}
+		if (broken) {
+			bandwidth[{route[i], route[i + 1]}] += vl.bw();
+		}
+	}
+	return *this;
+}
+
+BandwidthInfo& BandwidthInfo::withVlSet(const vector<Vl> &vls)
+{
+	for (const auto &vl : vls) {
+		withVl(vl);
+	}
+	return *this;
 }

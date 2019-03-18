@@ -8,8 +8,8 @@
 using namespace std;
 using namespace boost;
 
-Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo, BandwidthInfo &bw)
-	: links(vls), map(topo), bw(bw)
+Algorithm::Algorithm(const VlSet &vls, const NetTopology &topo, const BandwidthInfo &bw)
+	: links(vls), map(topo), bw(bw), brokenmap(map.brokenVls(links))
 {}
 
 VlSet Algorithm::run()
@@ -32,6 +32,7 @@ VlSet Algorithm::initial()
 	for (auto &link : links) {
 		auto path = searchPath(link, link.from(), link.to());
 		link = link.withRoute(map.routeForVl(path));
+		bw = bw.withVl(link);
 	}
 	return links;
 }
@@ -40,18 +41,8 @@ VlSet Algorithm::baseStep(VlSet vls)
 {
 	LOG(INFO) << "Base step started";
 	Timer timer("Base step");
-	const auto brokenmap = map.brokenVls(links);
+	auto bandwidth = takeOffBroken(bw);
 	int i = 0;
-	for (auto &link : vls) {
-		if (link.getId() != brokenmap[i].id) {
-			throw logic_error("Несоответствие индексов вк с картой вк");
-		}
-		if (brokenmap[i].broken) {
-			bw.increase(link);
-		}
-		i++;
-	}
-	i = 0;
 	for (auto &link : vls) {
 		if (link.getId() != brokenmap[i].id) {
 			throw logic_error("Несоответствие индексов вк с картой вк");
@@ -59,6 +50,7 @@ VlSet Algorithm::baseStep(VlSet vls)
 		if (brokenmap[i].broken) {
 			auto path = searchPath(link, brokenmap[i].sedge, link.to());
 			link = link.withChangedRoute(map.routeForVl(path), brokenmap[i].sedge);
+			bandwidth = bandwidth.withVl(link);
 		}
 		i++;
 	}
@@ -68,10 +60,11 @@ VlSet Algorithm::baseStep(VlSet vls)
 VlSet Algorithm::additionalStep()
 {
 	LOG(INFO) << "Additional step started";
+	bandwidth = takeOffHeavy(bw);
 	return {};
 }
 
-vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
+vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to) const
 {
 	Graph network = map.graphForVl(vl, bw);
 	vector<Vertex> path(num_vertices(network), graph_traits<Graph>::null_vertex());
@@ -86,13 +79,41 @@ vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 		throw runtime_error("Путь не найден");
 	}
 	vector<uint32_t> route = {to};
-	bw.decrease({to, v}, vl.bw());
 	while (path[v] != v) {
 		route.push_back(v);
 		auto next = v;
 		v = path[v];
-		bw.decrease({v, next}, vl.bw());
 	}
 	route.push_back(from);
 	return route;
+}
+
+BandwidthInfo Algorithm::takeOffBroken(BandwidthInfo bdw)
+{
+	int i = 0;
+	for (auto &link : links) {
+		if (link.getId() != brokenmap[i].id) {
+			throw logic_error("Несоответствие индексов вк с картой вк");
+		}
+		if (brokenmap[i].broken) {
+			bdw = bdw.withoutVlPart(link, brokenmap[i].sedge);
+		}
+		i++;
+	}
+	return bw;
+}
+
+BandwidthInfo Algorithm::takeOffHeavy(BandwidthInfo bdw)
+{
+	int i = 0;
+	for (auto &link : links) {
+		if (link.getId() != brokenmap[i].id) {
+			throw logic_error("Несоответствие индексов вк с картой вк");
+		}
+		if (brokenmap[i].brokenHeavier) {
+			bdw = bdw.withoutVl(link);
+		}
+		i++;
+	}
+	return bw;
 }

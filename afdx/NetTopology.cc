@@ -134,9 +134,17 @@ vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route) const
 
 vector<VlState> NetTopology::brokenVls(const VlSet &vls) const
 {
-	vector<VlState> states;
-	for (const auto &vl: vls) {
-		states.push_back(vl.state(switches));
+	vector<VlState> states(vls.size(), {});
+	bool heavy = false;
+	for (uint32_t i = vls.size() - 1; i >= 0; i--) {
+		const auto state = vls[i].state(switches);
+		if (heavy) {
+			states[i] = state.heavierMarked();
+			continue;
+		} else if (state.broken) {
+			heavy = true;
+		}
+		states[i] = state;
 	}
 	return states;
 }
