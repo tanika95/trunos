@@ -23,6 +23,7 @@ public:
 
 private:
 	void start();
+	void reload();
 
 	void switchDiscovered(Switch *sw);
 	void switchBroken(Switch *sw);

@@ -54,7 +54,7 @@ void Netcontrol::switchDiscovered(Switch *sw)
         topo = topo.withSwitch(sw->id());
         // TODO: это фейк
         topo = topo
-                .withLink({sw->id(), 0, sw->id() | HOST_MASK, 0, 20})
+                .withLink({sw->id(), 0, sw->id() | HOST_MASK, 0})
                 .withHostLink(sw->id(), sw->id());
         if (topo.isFull()) {
                 start();
@@ -65,6 +65,7 @@ void Netcontrol::switchBroken(Switch *sw)
 {
         LOG(INFO) << "Switch " << sw->id() << " down";
         topo = topo.withoutSwitch(sw->id());
+	reload();
 }
 
 void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
@@ -72,8 +73,8 @@ void Netcontrol::linkDiscovered(switch_and_port from, switch_and_port to)
         LOG(INFO) << "Link discovered";
         auto bdw = bw.getBandwidth(from.dpid, to.dpid);
         topo = topo
-                .withLink({from.dpid, from.port, to.dpid, to.port, bdw})
-                .withLink({to.dpid, to.port, from.dpid, from.port, bdw});
+                .withLink({from.dpid, from.port, to.dpid, to.port})
+                .withLink({to.dpid, to.port, from.dpid, from.port});
         if (topo.isFull()) {
                 start();
         }
@@ -83,13 +84,23 @@ void Netcontrol::linkBroken(switch_and_port from, switch_and_port to)
 {
         LOG(INFO) << "Link broken";
         topo = topo
-                .withoutLink({from.dpid, from.port, to.dpid, to.port, 0.0})
-                .withoutLink({to.dpid, to.port, from.dpid, from.port, 0.0});
+                .withoutLink({from.dpid, from.port, to.dpid, to.port})
+                .withoutLink({to.dpid, to.port, from.dpid, from.port});
+	reload();
 }
 
 void Netcontrol::start()
 {
         topo.log();
         vls = Algorithm(vls, topo, bw).initial();
+	// TODO: do apply here
 	bw = bw.withVlSet(vls);
+}
+
+void Netcontrol::reload()
+{
+        topo.log();
+        vls = Algorithm(vls, topo, bw).run();
+	// TODO: do reload here
+	bw = vlconf.bandwidth().withVlSet(vls);
 }
