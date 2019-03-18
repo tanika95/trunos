@@ -16,7 +16,7 @@ public:
 		auto end = std::chrono::high_resolution_clock::now();
 		LOG(INFO) << name << ':' <<
 			std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count()
-			<< " ms";
+			<< " ms" << '\n';
 	}
 
 private:

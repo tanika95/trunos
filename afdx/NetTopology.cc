@@ -33,9 +33,11 @@ void NetTopology::log() const
 	for (const auto &swtch : switches) {
 		swtch.second.log();
 	}
+	LOG(INFO) << "\n";
 	for (const auto &host : hosts) {
 		host.second.log();
 	}
+	LOG(INFO) << "\n\n\n";
 }
 
 NetTopology &NetTopology::withSwitch(uint32_t id)
@@ -122,7 +124,9 @@ vector<VlSwitch> NetTopology::routeForVl(const vector<uint32_t> &route) const
 	vector<VlSwitch> result;
 	auto end = route.size() - 1;
 	if (!(route[end] & HOST_MASK)) {
-		result.push_back(switches.at(end).routeSwitch(route[end - 1], route[end - 1]));
+		result.push_back(
+			switches.at(route[end]).routeSwitch(route[end - 1], route[end - 1])
+		);
 	}
 	for (uint32_t i = route.size() - 2; i > 0; i--) {
 		result.push_back(
