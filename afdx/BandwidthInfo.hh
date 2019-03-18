@@ -10,9 +10,11 @@ class BandwidthInfo {
 public:
 	BandwidthInfo(const std::map<LinkInfo, double> &bandwidth, double def);
 
+	void log() const;
 	double getBandwidth(uint32_t sender, uint32_t receiver) const;
 	BandwidthInfo& withVl(const Vl &vl);
 	BandwidthInfo& withoutVl(const Vl &vl);
+	BandwidthInfo& withVlPart(const Vl &vl, uint32_t edge);
 	BandwidthInfo& withoutVlPart(const Vl &vl, uint32_t edge);
 	BandwidthInfo& withVlSet(const std::vector<Vl> &vl);
 

@@ -30,7 +30,8 @@ VlSet Algorithm::initial()
 	LOG(INFO) << "Initial algorithm started";
 	Timer timer("Initial search");
 	for (auto &link : links) {
-		auto path = searchPath(link, link.from(), link.to());
+		auto network = map.graphForVl(link, bw);
+		auto path = searchPath(network, link.from(), link.to());
 		link = link.withRoute(map.routeForVl(path));
 		bw = bw.withVl(link);
 	}
@@ -48,9 +49,10 @@ VlSet Algorithm::baseStep(VlSet vls)
 			throw logic_error("Несоответствие индексов вк с картой вк");
 		}
 		if (brokenmap[i].broken) {
-			auto path = searchPath(link, brokenmap[i].sedge, link.to());
+			auto network = map.graphForVl(link, bandwidth);
+			auto path = searchPath(network, brokenmap[i].sedge, link.to());
 			link = link.withChangedRoute(map.routeForVl(path), brokenmap[i].sedge);
-			bandwidth = bandwidth.withVl(link);
+			bandwidth = bandwidth.withVlPart(link, brokenmap[i].sedge);
 		}
 		i++;
 	}
@@ -60,13 +62,12 @@ VlSet Algorithm::baseStep(VlSet vls)
 VlSet Algorithm::additionalStep()
 {
 	LOG(INFO) << "Additional step started";
-	bandwidth = takeOffHeavy(bw);
+	auto bandwidth = takeOffHeavy(bw);
 	return {};
 }
 
-vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to) const
+vector<uint32_t> Algorithm::searchPath(Graph network, uint32_t from, uint32_t to) const
 {
-	Graph network = map.graphForVl(vl, bw);
 	vector<Vertex> path(num_vertices(network), graph_traits<Graph>::null_vertex());
 	Vertex start = vertex(from, network);
 	vector<double> distances(num_vertices(network), 0.0);
@@ -81,7 +82,6 @@ vector<uint32_t> Algorithm::searchPath(const Vl &vl, uint32_t from, uint32_t to)
 	vector<uint32_t> route = {to};
 	while (path[v] != v) {
 		route.push_back(v);
-		auto next = v;
 		v = path[v];
 	}
 	route.push_back(from);
@@ -100,7 +100,7 @@ BandwidthInfo Algorithm::takeOffBroken(BandwidthInfo bdw)
 		}
 		i++;
 	}
-	return bw;
+	return bdw;
 }
 
 BandwidthInfo Algorithm::takeOffHeavy(BandwidthInfo bdw)
@@ -115,5 +115,5 @@ BandwidthInfo Algorithm::takeOffHeavy(BandwidthInfo bdw)
 		}
 		i++;
 	}
-	return bw;
+	return bdw;
 }

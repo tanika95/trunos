@@ -3,7 +3,7 @@
 #include <boost/property_map/property_map.hpp>
 #include "NetTopology.hh"
 #include "Vl.hh"
-#include "VlState.h"
+#include "VlState.hh"
 
 class Algorithm {
 public:
@@ -17,11 +17,11 @@ private:
 	BandwidthInfo bw;
 	const std::vector<VlState> brokenmap;
 
-	VlSet baseStep(VlSet vls, BandwidthInfo bw, const std::vector<VlState> &brokenmap);
+	VlSet baseStep(VlSet vls);
 	VlSet additionalStep();
 
 	BandwidthInfo takeOffBroken(BandwidthInfo bw);
 	BandwidthInfo takeOffHeavy(BandwidthInfo bw);
 
-	std::vector<uint32_t> searchPath(const Vl &vl, uint32_t from, uint32_t to) const;
+	std::vector<uint32_t> searchPath(Graph network, uint32_t from, uint32_t to) const;
 };

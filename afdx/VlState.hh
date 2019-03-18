@@ -4,7 +4,7 @@
 struct VlState {
 
 	VlState(uint32_t id, bool broken, uint32_t sedge)
-		: id(id), broken(broken), sport(sedge), brokenHeavier(false)
+		: id(id), broken(broken), sedge(sedge), brokenHeavier(false)
 	{}
 
 	VlState(uint32_t id, bool broken)
@@ -15,7 +15,7 @@ struct VlState {
 		: VlState(0, false, 0)
 	{}
 
-	VlState heavierMarked()
+	VlState heavierMarked() const
 	{
 		VlState heavy;
 		heavy.id = id;

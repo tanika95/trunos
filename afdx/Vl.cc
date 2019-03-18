@@ -49,6 +49,9 @@ uint32_t Vl::to() const
 
 VlState Vl::state(const map<uint32_t, NetSwitch> &switches) const
 {
+	if (route.size() == 0) {
+		return VlState(id, false);
+	}
 	if (switches.find(route[0].id) == switches.end()
 			|| !switches.at(route[0].id).linkOn(from())) {
 		return VlState(id, true, from());
