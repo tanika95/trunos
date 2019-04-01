@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
-#include "Sla.hh"
 #include "NetSwitch.hh"
+#include "Settings.hh"
+#include "Sla.hh"
 #include "VlSwitch.hh"
 #include "VlState.hh"
 
@@ -18,9 +19,11 @@ public:
 	uint32_t to() const;
 	VlState state(const std::map<uint32_t, NetSwitch> &switches) const;
 	std::vector<uint32_t> switches() const;
+	Settings getSettings() const;
 
 	Vl &withRoute(const std::vector<VlSwitch> &r);
 	Vl &withChangedRoute(const std::vector<VlSwitch> &r, uint32_t edge);
+	Vl &stable();
 
 private:
 	uint32_t id [[maybe_unused]];
@@ -28,6 +31,7 @@ private:
 	uint32_t receiver;
 	Sla params;
 	std::vector<VlSwitch> route;
+	std::vector<VlSwitch> previous;
 };
 
 typedef std::vector<Vl> VlSet;

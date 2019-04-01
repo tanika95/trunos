@@ -84,6 +84,12 @@ Vl &Vl::withRoute(const vector<VlSwitch> &r)
 	return *this;
 }
 
+Vl &Vl::stable()
+{
+	previous.assign(route.begin(), route.end());
+	return *this;
+}
+
 Vl &Vl::withChangedRoute(const vector<VlSwitch> &new_route, uint32_t edge)
 {
 	int i = 0;
@@ -93,7 +99,24 @@ Vl &Vl::withChangedRoute(const vector<VlSwitch> &new_route, uint32_t edge)
 		}
 		i++;
 	}
+	previous.assign(route.begin(), route.end());
 	route.erase(route.begin() + i + 1, route.end());
 	route.insert(route.end(), new_route.begin() + 1, new_route.end());
+	route[i].rport = new_route[0].rport;
 	return *this;
+}
+
+Settings Vl::getSettings() const
+{
+	int i;
+	// Сначала пропустим все общие коммутаторы
+	for (i = 0; i < route.size() && i < previous.size(); i++) {
+		if (route[i] != previous[i]) {
+			break;
+		}
+	}
+	return Settings(id, params,
+		{route.begin() + i, route.end()},
+		{previous.begin() + i, previous.end()}
+	);
 }
