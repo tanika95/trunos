@@ -14,7 +14,6 @@ struct Settings {
 	void log() const
 	{
 		LOG(INFO) << "------Settings----"<< id << "-----------";
-		ostringstream ss;
 		LOG(INFO) << "Delete";
 		for (const auto &swtch : remove) {
 			swtch.log();

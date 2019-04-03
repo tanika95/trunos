@@ -49,7 +49,6 @@ VlSet Algorithm::baseStep(VlSet vls)
 			throw logic_error("Несоответствие индексов вк с картой вк");
 		}
 		if (brokenmap[i].broken) {
-			LOG(INFO) << brokenmap[i].id;
 			auto network = map.graphForVl(link, bandwidth);
 			auto path = searchPath(network, brokenmap[i].sedge, link.to());
 			link = link.withChangedRoute(map.routeForVl(path), brokenmap[i].sedge);

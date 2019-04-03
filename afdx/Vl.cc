@@ -108,7 +108,7 @@ Vl &Vl::withChangedRoute(const vector<VlSwitch> &new_route, uint32_t edge)
 
 Settings Vl::getSettings() const
 {
-	int i;
+	uint32_t i;
 	// Сначала пропустим все общие коммутаторы
 	for (i = 0; i < route.size() && i < previous.size(); i++) {
 		if (route[i] != previous[i]) {

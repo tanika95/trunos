@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include "Common.hh"
 
 struct VlSwitch {
 	VlSwitch(uint32_t id, uint32_t sport, uint32_t rport)
