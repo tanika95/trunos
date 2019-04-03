@@ -48,6 +48,7 @@ set(SOURCES
         NetLink.cc
         NetSwitch.cc
         NetTopology.cc
+	Network.cc
         Sla.cc
         Vl.cc
         VlConfig.cc

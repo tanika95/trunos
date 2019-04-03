@@ -24,6 +24,7 @@ void Netcontrol::init(Loader *loader, const Config &config)
     	Controller* ctrl = Controller::get(loader);
     	LOG(INFO) << "Netcontrol init";
     	auto table = ctrl->getTable("netcontrol");
+	net = Network(table);
         topo = topo.withHost(1).withHost(2).withHost(3).withHost(4);
 
     	auto swmanager = SwitchManager::get(loader);
@@ -52,7 +53,8 @@ void Netcontrol::switchDiscovered(Switch *sw)
 {
         LOG(INFO) << "Switch " << sw->id() << " up";
         topo = topo.withSwitch(sw->id());
-        // TODO: это фейк
+	net.withConnection(sw->id(), sw->connection());
+	// TODO: это фейк
         topo = topo
                 .withLink({sw->id(), 0, sw->id() | HOST_MASK, 0})
                 .withHostLink(sw->id(), sw->id());
@@ -65,6 +67,7 @@ void Netcontrol::switchBroken(Switch *sw)
 {
         LOG(INFO) << "Switch " << sw->id() << " down";
         topo = topo.withoutSwitch(sw->id());
+	net.withoutConnection(sw->id());
 	reload();
 }
 
@@ -93,7 +96,7 @@ void Netcontrol::start()
 {
         topo.log();
         vls = Algorithm(vls, topo, bw).initial();
-	// TODO: do apply here
+	net.apply(vls);
 	bw = bw.withVlSet(vls);
 }
 
@@ -101,6 +104,6 @@ void Netcontrol::reload()
 {
         topo.log();
         vls = Algorithm(vls, topo, bw).run();
-	// TODO: do reload here
+	net.apply(vls);
 	bw = vlconf.bandwidth().withVlSet(vls);
 }

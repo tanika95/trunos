@@ -8,6 +8,7 @@
 
 #include "BandwidthInfo.hh"
 #include "NetTopology.hh"
+#include "Network.hh"
 #include "Vl.hh"
 #include "VlConfig.hh"
 
@@ -38,5 +39,6 @@ private:
 	VlConfig vlconf;
 	NetTopology topo;
 	BandwidthInfo bw;
+	Network net;
 
 };
