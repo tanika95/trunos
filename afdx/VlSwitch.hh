@@ -15,6 +15,12 @@ struct VlSwitch {
 		return id != other.id || sport != other.sport || rport != other.rport;
 	}
 
+	void log() const
+	{
+		LOG(INFO) << id << " s" << sport << " r" << rport;
+
+	}
+
 	uint32_t id;
 	uint32_t sport;
 	uint32_t rport;
