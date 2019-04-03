@@ -65,7 +65,33 @@ VlSet Algorithm::additionalStep()
 {
 	LOG(INFO) << "Additional step started";
 	auto bandwidth = takeOffHeavy(bw);
-	return {};
+	int i = 0;
+	for (auto &link : vls) {
+		if (link.getId() != brokenmap[i].id) {
+			throw logic_error("Несоответствие индексов вк с картой вк");
+		}
+		link = link.stable();
+		if (brokenmap[i].broken) {
+			auto network = map.graphForVl(link, bandwidth);
+			auto path = searchPath(network, link.from(), link.to());
+			link = link.withRoute(map.routeForVl(path));
+			bw = bw.withVl(link);
+		}
+		i++;
+	}
+	for (auto &link : vls) {
+		if (link.getId() != brokenmap[i].id) {
+			throw logic_error("Несоответствие индексов вк с картой вк");
+		}
+		if (brokenmap[i].brokenHeavier && !brokenmap[i].broken) {
+			auto network = map.graphForVl(link, bandwidth);
+			auto path = searchPath(network, link.from(), link.to());
+			link = link.withRoute(map.routeForVl(path));
+			bw = bw.withVl(link);
+		}
+		i++;
+	}
+	return vls;
 }
 
 vector<uint32_t> Algorithm::searchPath(Graph network, uint32_t from, uint32_t to) const
