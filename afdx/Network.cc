@@ -1,16 +1,16 @@
 #include "Network.hh"
-#include "Common.hh"
+#include "Settings.hh"
 #include "Timer.hh"
 
 using namespace std;
 using namespace of13;
+using namespace runos;
 
 Network::Network()
 	: table(0)
 {}
 
-// Denis is it ok to store connptrs
-Network(uint8_t table)
+Network::Network(uint8_t table)
 	: table(table)
 {}
 
@@ -37,7 +37,7 @@ void Network::apply(const VlSet &vls)
 			OFPMF_PKTPS || OFPMF_BURST, vl.getId());
 		const auto rflow = deleteFlow(vl.getId());
 		for (const auto sw : settings.remove) {
-			if connections.find(sw.id) {
+			if (connections.find(sw.id)) {
 				connections[sw.id]->send(rflow);
 				connections[sw.id]->send(rmeter);
 			}
@@ -55,7 +55,6 @@ void Network::apply(const VlSet &vls)
 
 MeterMod Network::addMeter(const Sla &params, uint32_t id)
 {
-	// Denis wtf is param0 xid?
 	MeterMod meter(0, OFPMC_ADD, OFPMF_PKTPS || OFPMF_BURST, id);
 	MeterBandDrop *band = new MeterBandDrop(params.rate(), params.burstSize());
 	meter.add_band(band);
@@ -68,14 +67,14 @@ FlowMod Network::addFlow(const VlSwitch &sw, uint32_t id)
         fm.command(OFPFC_ADD);
         fm.buffer_id(OFP_NO_BUFFER);
 	fm.table_id(table);
-	auto in_port = new InPort(sw.src);
+	auto in_port = new InPort(sw.sport);
 	fm.add_oxm_field(in_port);
         auto vlan = new VLANVid(id);
 	fm.add_oxm_field(vlan);
 
 	ApplyActions port_act;
-	auto out = new OutputAction(sw.rport, WTF? DENIS);
-	act.add_action(out);
+	auto out = new OutputAction(sw.rport, 0);
+	port_act.add_action(out);
         fm.add_instruction(port_act);
 
 	Meter meter_act(id);
@@ -84,7 +83,6 @@ FlowMod Network::addFlow(const VlSwitch &sw, uint32_t id)
         return fm;
 }
 
-// Denis is this delete ok?
 FlowMod Network::deleteFlow(uint32_t id)
 {
 	FlowMod fm;

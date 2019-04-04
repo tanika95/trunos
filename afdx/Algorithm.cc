@@ -20,7 +20,7 @@ VlSet Algorithm::run()
 		return vls;
 	} catch(const std::exception &e) {
 		LOG(INFO) << "Base step failed: " << e.what();
-		const auto vls = additionalStep();
+		const auto vls = additionalStep(links);
 		return vls;
 	}
 }
@@ -61,7 +61,7 @@ VlSet Algorithm::baseStep(VlSet vls)
 	return vls;
 }
 
-VlSet Algorithm::additionalStep()
+VlSet Algorithm::additionalStep(VlSet vls)
 {
 	LOG(INFO) << "Additional step started";
 	auto bandwidth = takeOffHeavy(bw);

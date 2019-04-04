@@ -18,7 +18,7 @@ private:
 	const std::vector<VlState> brokenmap;
 
 	VlSet baseStep(VlSet vls);
-	VlSet additionalStep();
+	VlSet additionalStep(VlSet vls);
 
 	BandwidthInfo takeOffBroken(BandwidthInfo bw);
 	BandwidthInfo takeOffHeavy(BandwidthInfo bw);

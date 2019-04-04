@@ -26,7 +26,7 @@ public:
 	Vl &stable();
 
 private:
-	uint32_t id [[maybe_unused]];
+	uint32_t id;
 	uint32_t sender;
 	uint32_t receiver;
 	Sla params;
