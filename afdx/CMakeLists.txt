@@ -46,6 +46,7 @@ set(SOURCES
         Netcontrol.cc
         NetHost.cc
         NetLink.cc
+        NetStats.cc
         NetSwitch.cc
         NetTopology.cc
 	Network.cc

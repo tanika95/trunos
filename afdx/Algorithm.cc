@@ -64,6 +64,7 @@ VlSet Algorithm::baseStep(VlSet vls)
 VlSet Algorithm::additionalStep(VlSet vls)
 {
 	LOG(INFO) << "Additional step started";
+	Timer timer("Additional step");
 	auto bandwidth = takeOffHeavy(bw);
 	int i = 0;
 	for (auto &link : vls) {
@@ -79,6 +80,7 @@ VlSet Algorithm::additionalStep(VlSet vls)
 		}
 		i++;
 	}
+	i = 0;
 	for (auto &link : vls) {
 		if (link.getId() != brokenmap[i].id) {
 			throw logic_error("Несоответствие индексов вк с картой вк");

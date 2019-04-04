@@ -9,8 +9,8 @@
     ],
 
     "tables": {
-        "maple" : 1,
-        "netcontrol" : 2
+        "netcontrol" : 0,
+        "maple" : 1
     },
 
     "rest-listener" : {

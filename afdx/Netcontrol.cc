@@ -5,6 +5,7 @@
 #include "Controller.hh"
 
 #include "Algorithm.hh"
+#include "NetStats.hh"
 
 
 REGISTER_APPLICATION(Netcontrol, {"controller", "switch-manager", "link-discovery", ""})
@@ -55,9 +56,11 @@ void Netcontrol::switchDiscovered(Switch *sw)
         topo = topo.withSwitch(sw->id());
 	net.withConnection(sw->id(), sw->connection());
 	// TODO: это фейк
-        topo = topo
-                .withLink({sw->id(), 0, sw->id() | HOST_MASK, 0})
-                .withHostLink(sw->id(), sw->id());
+        if (sw->id() < 5) {
+                topo = topo
+                        .withLink({sw->id(), 1, sw->id() | HOST_MASK, 1})
+                        .withHostLink(sw->id(), sw->id());
+        }
         if (topo.isFull()) {
                 start();
         }
@@ -94,16 +97,28 @@ void Netcontrol::linkBroken(switch_and_port from, switch_and_port to)
 
 void Netcontrol::start()
 {
-        topo.log();
-        vls = Algorithm(vls, topo, bw).initial();
+        //topo.log();
+        try {
+                vls = Algorithm(vls, topo, bw).initial();
+        } catch(const std::exception &e) {
+        	LOG(INFO) << "Initial configuration failed: " << e.what();
+        	exit(-1);
+        }
 	net.apply(vls);
+        NetStats(vls).logSwtches().logLinks();
 	bw = bw.withVlSet(vls);
 }
 
 void Netcontrol::reload()
 {
-        topo.log();
-        vls = Algorithm(vls, topo, bw).run();
+        //topo.log();
+        try {
+                vls = Algorithm(vls, topo, bw).run();
+        } catch(const std::exception &e) {
+        	LOG(INFO) << "Additional step failed: " << e.what();
+        	exit(-1);
+        }
 	net.apply(vls);
+        NetStats(vls).logSwtches().logLinks();
 	bw = vlconf.bandwidth().withVlSet(vls);
 }

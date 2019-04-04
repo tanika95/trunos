@@ -37,8 +37,9 @@ void Network::apply(const VlSet &vls)
 			OFPMF_PKTPS || OFPMF_BURST, vl.getId());
 		const auto rflow = deleteFlow(vl.getId());
 		for (const auto sw : settings.remove) {
-			if (connections.find(sw.id)) {
+			if (connections.find(sw.id) != connections.end()) {
 				connections[sw.id]->send(rflow);
+				connections[sw.id]->send(BarrierRequest{});
 				connections[sw.id]->send(rmeter);
 			}
 		}
@@ -47,7 +48,9 @@ void Network::apply(const VlSet &vls)
 		for (const auto sw : settings.add) {
 			auto flowmod = addFlow(sw, vl.getId());
 			connections[sw.id]->send(metermod);
+			connections[sw.id]->send(BarrierRequest{});
 			connections[sw.id]->send(flowmod);
+
 		}
 
 	}
