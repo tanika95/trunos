@@ -2,17 +2,17 @@ from xml.etree import ElementTree
 from mininet.topo import Topo
 
 class NetTopo(Topo):
-	def __init__(self, name):
+	def __init__(self, config):
 		Topo.__init__(self)
 
-		with open(name, 'r') as f:
+		with open(config, 'r') as f:
 			xml = f.read()
-			print(xml)
 			self.config = ElementTree.fromstring(xml)
 
 		self.nethosts = []
 		for host in self.hostNames():
-			self.nethosts.append(self.addHost(host))
+			nethost = self.addHost(host)
+			self.nethosts.append(nethost)
 
 		self.netswitches = []
 		for sw in self.swNames():
