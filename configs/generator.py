@@ -81,7 +81,7 @@ class RandomFlows:
 
 
 
-if sys.argc < 5:
+if len(sys.argv) < 5:
 	print("Usage: ./generator.py filename type size hosts")
 	sys.exit(-1)
 
