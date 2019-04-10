@@ -10,6 +10,8 @@ from NetTopo import NetTopo
 from Flows import Flows
 
 class Network:
+	actions = "actions.sh"
+
 	def __init__(self, config):
 		cleanup()
 		setLogLevel('info')
@@ -24,15 +26,27 @@ class Network:
 
 	def start(self):
 		self.net.start()
+		time.sleep(20)
+		f = open(self.actions, 'w')
+		f.write(self.sinkCommands())
+		f.write(self.flowsCommands())
+		f.close()
+		CLI(self.net, script=self.actions)
+		CLI(self.net)
 
 	def stop(self):
-		CLI(self.net)
-		self.net.stop()
+		self.net.stop
 
-	def runFlows(self):
+	def sinkCommands(self):
+		config = '\n'.join([host + " python3 rcv.py " + host + ' & '
+			for host in self.topology.hostNames()])
+		return config
+
+	def flowsCommands(self):
 		i = 0
+		config = '\n'
 		for host in self.topology.hostNames():
 			i += 1
 			for flow in self.flows.toSendBy(i):
-				self.net.getNodeByName(host).sendCmd(flow.command())
-				break
+				config += host + ' ' + flow.command() + ' &\n'
+		return config

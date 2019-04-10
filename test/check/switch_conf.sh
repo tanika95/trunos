@@ -1,8 +1,8 @@
 
 sudo dpctl unix:/tmp/s1 meter-mod cmd=add,flags=5,meter=1 drop:rate=8,burst=8
 sudo dpctl unix:/tmp/s1 meter-mod cmd=add,flags=5,meter=2 drop:rate=4,burst=4
-sudo dpctl unix:/tmp/s1 meter-mod cmd=add,flags=5,meter=3 drop:rate=8,burst=8
-sudo dpctl unix:/tmp/s1 meter-mod cmd=add,flags=5,meter=4 drop:rate=4,burst=4
+sudo dpctl unix:/tmp/s1 meter-mod cmd=add,flags=5,meter=3 drop:rate=4,burst=4
+sudo dpctl unix:/tmp/s1 meter-mod cmd=add,flags=5,meter=4 drop:rate=8,burst=8
 
 sudo dpctl unix:/tmp/s2 meter-mod cmd=add,flags=5,meter=1 drop:rate=8,burst=8
 sudo dpctl unix:/tmp/s2 meter-mod cmd=add,flags=5,meter=2 drop:rate=4,burst=4

@@ -12,5 +12,4 @@ if len(sys.argv) < 2:
 config = sys.argv[1]
 net = Network(config)
 net.start()
-net.runFlows()
 net.stop()
