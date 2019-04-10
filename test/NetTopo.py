@@ -25,7 +25,7 @@ class NetTopo(Topo):
 			for sw in swids:
 				self.addLink(self.nethosts[hid], self.netswitches[sw])
 
-		k = 0.01 # TODO: надо снова расчитать эти тупые соотношения
+		k = 0.001 # TODO: надо снова расчитать эти тупые соотношения
 		links = self.config.findall("./linksinfo/link")
 		for link in links:
 			sid = int(link.find("sender").text) - 1

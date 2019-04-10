@@ -26,7 +26,6 @@ class Network:
 		self.net.start()
 
 	def stop(self):
-		time.sleep(30)
 		CLI(self.net)
 		self.net.stop()
 
@@ -35,5 +34,5 @@ class Network:
 		for host in self.topology.hostNames():
 			i += 1
 			for flow in self.flows.toSendBy(i):
-				self.net.getNodeByName(host).cmdPrint(flow.command())
+				self.net.getNodeByName(host).sendCmd(flow.command())
 				break

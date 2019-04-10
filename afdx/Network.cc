@@ -58,7 +58,7 @@ void Network::apply(const VlSet &vls)
 
 MeterMod Network::addMeter(const Sla &params, uint32_t id)
 {
-	MeterMod meter(0, OFPMC_ADD, OFPMF_PKTPS || OFPMF_BURST, id);
+	MeterMod meter(0, OFPMC_ADD, OFPMF_KBPS | OFPMF_BURST, id);
 	MeterBandDrop *band = new MeterBandDrop(params.rate(), params.burstSize());
 	meter.add_band(band);
 	return meter;
