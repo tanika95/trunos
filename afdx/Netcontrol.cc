@@ -26,7 +26,9 @@ void Netcontrol::init(Loader *loader, const Config &config)
     	LOG(INFO) << "Netcontrol init";
     	auto table = ctrl->getTable("netcontrol");
 	net = Network(table);
-        topo = topo.withHost(1).withHost(2).withHost(3).withHost(4);
+        for (int i = 0; i < vlconf.info().hosts; i++) {
+                topo = topo.withHost(i + 1);
+        }
 
     	auto swmanager = SwitchManager::get(loader);
     	connect(
@@ -56,7 +58,7 @@ void Netcontrol::switchDiscovered(Switch *sw)
         topo = topo.withSwitch(sw->id());
 	net.withConnection(sw->id(), sw->connection());
 	// TODO: это фейк
-        if (sw->id() < 5) {
+        if (sw->id() <= vlconf.info().hosts) {
                 topo = topo
                         .withLink({sw->id(), 1, sw->id() | HOST_MASK, 1})
                         .withHostLink(sw->id(), sw->id());

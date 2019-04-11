@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-
+import random
 
 class DataClass:
 	def __init__(self, type, size):
@@ -40,17 +40,23 @@ class DataClass:
 
 
 class Flow:
-	def __init__(self, bw, sender, receiver):
+	def __init__(self, id, bw, sender, receiver):
 		self.bw = bw
 		self.sender = sender
 		self.receiver = receiver
+		self.fid = id
 
 	def xml(self):
-		return ''.join((
-			'<vl>',
-			'<elems>',
-			'<count>%d</count>' % 5,
-			'</vl>'
+		bag = random.randint(1, 2)
+		return '\n'.join((
+			'	<vl>',
+			'		<id>%d</id>' % self.fid,
+			'		<sender>%d</sender>' % self.sender,
+			'		<receiver>%d</receiver>' % self.receiver,
+			'		<bag>%d</bag>' % bag,
+			'		<lmax>%d</lmax>' % (self.bw * bag),
+			'		<jitter>0.01</jitter>',
+			'	</vl>'
 		))
 
 
@@ -63,19 +69,26 @@ class RandomFlows:
 
 	def generate(self):
 		flows = []
-		for amount in [self.type.light(), self.type.medium(), self.type.heavy()]
+		vl = 0
+		k = 1
+		for amount in [self.type.light(), self.type.medium(), self.type.heavy()]:
 			for i in range(amount):
-				sender = 1
-				receiver = 2
-				bw = self.BW * (i + 1)
-				flows.append(Flow(bw, sender, receiver))
+				vl += 1
+				receiver = 0
+				sender = 0
+				while receiver == sender:
+					receiver = random.randint(1, 4)
+					sender = random.randint(1, 4)
+				bw = self.BW * k
+				flows.append(Flow(vl, bw, sender, receiver))
+			k *= 2
 		return flows
 
 	def xml(self):
 		flows = self.generate()
-		return ''.join((
+		return '\n'.join((
 			'<vls>',
-			''.join([flow.xml() for flow in flows])
+			'\n'.join([flow.xml() for flow in flows]),
 			'</vls>'
 		))
 
@@ -86,9 +99,9 @@ if len(sys.argv) < 5:
 	sys.exit(-1)
 
 filename = sys.argv[1]
-data_type = sys.argv[2]
-size = sys.argv[3]
-hosts = sys.argv[4]
+data_type = int(sys.argv[2])
+size = int(sys.argv[3])
+hosts = int(sys.argv[4])
 
 flows = RandomFlows(DataClass(data_type, size), hosts)
 with open(filename, 'w') as f:

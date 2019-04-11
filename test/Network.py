@@ -7,7 +7,6 @@ from mininet.node import RemoteController, UserSwitch
 from mininet.clean import cleanup
 
 from NetTopo import NetTopo
-from Flows import Flows
 
 class Network:
 	actions = "actions.sh"
@@ -22,11 +21,11 @@ class Network:
 		for host in self.topology.hostNames():
 			self.net.getNodeByName(host).setDefaultRoute(host + '-eth0')
 
-		self.flows = Flows(config)
+		self.config = config
 
 	def start(self):
 		self.net.start()
-		time.sleep(20)
+		time.sleep(8)
 		f = open(self.actions, 'w')
 		f.write(self.sinkCommands())
 		f.write(self.flowsCommands())
@@ -47,6 +46,6 @@ class Network:
 		config = '\n'
 		for host in self.topology.hostNames():
 			i += 1
-			for flow in self.flows.toSendBy(i):
-				config += host + ' ' + flow.command() + ' &\n'
+			config += host + " python3 send.py "
+			config += str(i) + ' ' + self.config + ' &\n'
 		return config

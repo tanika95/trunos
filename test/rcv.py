@@ -1,6 +1,6 @@
-from scapy.all import *
 from datetime import *
 import os
+from scapy.all import *
 import sys
 import time
 
@@ -15,15 +15,15 @@ def addEntry(p):
 	timestamp = datetime.now()
 	try:
 		num = int(p.load[:8])
-		result.setdefault(p.vlan, []).append((num, timestamp.strftime("%S.%f")))
+		result.setdefault(p.vlan, []).append((num, timestamp.strftime("%M.%S.%f")))
 	except:
 		pass
 
-sniff(prn=addEntry, count=100)
+sniff(prn=addEntry, count=1000, filter='udp and portrange 20000-20100')
 
 f = open(fname, 'w')
 for flow in result:
-	f.write(str(flow) + "\n")
+	f.write(str(flow) + "**\n")
 	f.write('----------\n')
 	for packet in result[flow]:
 		num = str(packet[0])

@@ -70,6 +70,7 @@ FlowMod Network::addFlow(const VlSwitch &sw, uint32_t id)
         fm.command(OFPFC_ADD);
         fm.buffer_id(OFP_NO_BUFFER);
 	fm.table_id(table);
+	fm.priority(32768);
 	auto in_port = new InPort(sw.sport);
 	fm.add_oxm_field(in_port);
         auto vlan = new VLANVid(id);
