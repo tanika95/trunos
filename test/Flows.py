@@ -32,3 +32,17 @@ class Flows:
 			if int(flow_xml.find("sender").text) == id:
 				flows.append(Flow(flow_xml))
 		return flows
+
+	def sentByIds(self, id):
+		flows = []
+		for flow_xml in self.config.findall("./vls/vl"):
+			if int(flow_xml.find("sender").text) == id:
+				flows.append(int(flow_xml.find("id").text))
+		return flows
+
+	def receivedByIds(self, id):
+		flows = []
+		for flow_xml in self.config.findall("./vls/vl"):
+			if int(flow_xml.find("receiver").text) == id:
+				flows.append(int(flow_xml.find("id").text))
+		return flows

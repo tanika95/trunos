@@ -3,13 +3,19 @@ import os
 from scapy.all import *
 import sys
 import time
-
+from Flows import Flows
 
 import pcapy as pcap
 conf.use_pcap=True
 
+
+
 fname = sys.argv[1]
+config = sys.argv[2]
 result = {}
+flows = Flows(config)
+outgoing = flows.sentByIds()
+incomming = flows.sentByIds()
 
 def addEntry(p):
 	timestamp = datetime.now()
