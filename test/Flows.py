@@ -1,6 +1,10 @@
 from xml.etree import ElementTree
 from scapy.all import *
 
+SEND_BASE = 10000
+RCV_BASE = 20000
+
+
 class Flow:
 	def __init__(self, xml):
 		self.id = int(xml.find("id").text)
@@ -8,13 +12,13 @@ class Flow:
 		self.lmax = int(xml.find("lmax").text)
 		self.jitter = float(xml.find("jitter").text)
 
-	def packets(self):
+	def packets(self, amount):
 		packets = []
-		sport = 10000 + self.id
-		dport = 20000 + self.id
+		sport = SEND_BASE + self.id
+		dport = RCV_BASE + self.id
 		sequence = 8
 		payload = RandString(size=self.lmax - 46 - sequence)
-		for i in range(0, 100):
+		for i in range(0, amount):
 			num = str(i)
 			load = '0' * (sequence - len(num)) + num + str(payload)
 			packets += [Ether()/Dot1Q(vlan=self.id)/IP()/UDP(sport=sport, dport=dport)/Raw(load)]

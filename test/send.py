@@ -7,6 +7,7 @@ from Flows import Flows
 host = int(sys.argv[1])
 config = sys.argv[2]
 flows = Flows(config).toSendBy(host)
+count = 100
 
 def send(bag, packets):
 	if len(packets) == 0:
@@ -15,7 +16,7 @@ def send(bag, packets):
 	threading.Timer(bag, send, [bag, packets]).start()
 
 # Заранее чтобы пакеты были сгенерированы - не терять время
-info = [(flow.bag, flow.packets())  for flow in flows]
+info = [(flow.bag, flow.packets(count))  for flow in flows]
 for flow in info:
 	bag = flow[0]
 	packets = flow[1]

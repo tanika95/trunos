@@ -37,10 +37,12 @@ class Network:
 		self.net.stop
 
 	def sinkCommands(self):
+		i = 0
 		config = ''
 		for host in self.topology.hostNames():
+			i += 1
 			config += host + " python3 rcv.py "
-			config += host + ' ' + self.config + ' &\n'
+			config += str(i) + ' ' + self.config + ' &\n'
 		return config
 
 	def flowsCommands(self):
