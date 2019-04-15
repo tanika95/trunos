@@ -3,23 +3,22 @@ import os
 from scapy.all import *
 import sys
 import time
-from Flows import Flows
+from Flows import *
 from threading import Thread
 
 import pcapy as pcap
 conf.use_pcap=True
 
 
-host = sys.argv[1]
+host = int(sys.argv[1])
 config = sys.argv[2]
 result = {}
 flows = Flows(config)
-outgoing = flows.sentByIds(host)
-incomming = flows.sentByIds(host)
-count = 90
+incomming = flows.receivedByIds(host)
+count = 100
 
 def write(report, stats):
-	f = open('results/raw' + report, 'w')
+	f = open('results/raw/' + report, 'w')
 	for packet in stats:
 		num = str(packet[0])
 		timestamp = packet[1]
@@ -41,25 +40,16 @@ def entry(p, vlan):
 		log(vlan, "Неверный пакет" + p.show())
 		return []
 
-def rcv(vl, send):
-	port = vl
-	report = str(vl)
-	if send:
-		port += SEND_BASE
-		report += '-snd'
-	else:
-		port += RCV_BASE
-		report += '-rcv'
+def rcv(vl):
+	port = vl + RCV_BASE
+	report = str(vl) + '.rcv'
 	stats = []
 	sniff(prn=lambda p: stats.append(entry(p, vl)), count=count, filter='udp and port %u' % port)
 	write(report, stats)
 
 threads = []
-for sink in [(outgoing, True), (incomming, False)]:
-	vls = sink[0]
-	send = sink[1]
-	for vl in vls:
-		threads += [Thread(target=rcv, args=(vl, send))]
+for vl in incomming:
+	threads += [Thread(target=rcv, args=[vl])]
 
 for thread in threads:
 	thread.start()

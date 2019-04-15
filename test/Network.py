@@ -5,13 +5,14 @@ from mininet.log import setLogLevel, info
 from mininet.net import Mininet
 from mininet.node import RemoteController, UserSwitch
 from mininet.clean import cleanup
-
+from Flows import Flows
 from NetTopo import NetTopo
+from results.Results import Results
 
 class Network:
 	actions = "actions.sh"
 
-	def __init__(self, config):
+	def __init__(self, config, resfile):
 		cleanup()
 		setLogLevel('info')
 		runos = RemoteController('runos', '0.0.0.0', 6653)
@@ -22,6 +23,7 @@ class Network:
 			self.net.getNodeByName(host).setDefaultRoute(host + '-eth0')
 
 		self.config = config
+		self.resfile = resfile
 
 	def start(self):
 		self.net.start()
@@ -34,7 +36,8 @@ class Network:
 		CLI(self.net)
 
 	def stop(self):
-		self.net.stop
+		Results(Flows(self.config).amount(), 'results/').toFile(self.resfile)
+		self.net.stop()
 
 	def sinkCommands(self):
 		i = 0

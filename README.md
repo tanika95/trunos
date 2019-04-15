@@ -9,14 +9,15 @@
     $ cmake -DCMAKE_BUILD_TYPE=Release ..
     $ make prefix -j2
     $ make -j2
-    $ source ../debug_run_env.sh
     ```
 ### Инструкции по запуску
-- Запускаем runos
+- Запуск runos
+	```ssh
+	debug_run_env.sh
+	build/runos
+	```
+- Запуск тестов
     ```ssh
-    build/runos
+    sudo /tests/run.py config report
     ```
-- Запускаем mininet
-    ```ssh
-    sudo mn --custom path/topology.py --topo mytopo --switch user --controller remote,port=6653
-    ```
+Отчёт по потокам данных будет сгенерирован в test/results/report

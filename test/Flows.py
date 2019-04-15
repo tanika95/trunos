@@ -50,3 +50,6 @@ class Flows:
 			if int(flow_xml.find("receiver").text) == id:
 				flows.append(int(flow_xml.find("id").text))
 		return flows
+
+	def amount(self):
+		return len(self.config.findall("./vls/vl"))

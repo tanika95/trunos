@@ -6,10 +6,11 @@ import time
 from Network import Network
 
 
-if len(sys.argv) < 2:
-	print("Usage: ./run.py config")
+if len(sys.argv) < 3:
+	print("Usage: ./run.py config result")
 	sys.exit(-1)
 config = sys.argv[1]
-net = Network(config)
+result = sys.argv[2]
+net = Network(config, result)
 net.start()
 net.stop()
