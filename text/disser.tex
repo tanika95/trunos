@@ -103,7 +103,7 @@
 Данная работа посвящена созданию методов и средств, позволяющих использовать ПКС в системах реального времени с учётом предъявляемых требований качества обслуживания.
 
 \section{Постановка задачи}
-Целью работы является разработка подхода к использованию программно-конфигурируемых сетей в составе вычислительных реального времени. В основу подхода положена ранее разработанная автором схема управления потоками данных в ПКС на основе виртуальных каналов. Для достижения этой цели должны быть решены следующие задачи:
+Целью работы является разработка подхода к использованию программно-конфигурируемых сетей в составе вычислительных реального времени. В основу подхода положена ранее разработанная автором схема управления потоками данных в ПКС на основе виртуальных каналов \cite{vlsdn}. Для достижения этой цели должны быть решены следующие задачи:
 \begin{enumerate}
 	\item Разработка алгоритма динамической реконфигурации виртуальных каналов.
 	\item Реализация приложения для контроллера ПКС, выполняющего функции мониторинга сети и её реконфигурации при выявлении отказов.
@@ -155,7 +155,7 @@
 
 Стандарты AFDX и FC-AE-ASM-RT определяют построение сетей ВС РВ на основе виртуальных каналов. Маршрутизация в таких сетях производится коммутаторами при помощи статических таблиц, которые настраиваются заранее. Контроль трафика осуществляется с использованием алгоритма текущего ведра на уровне кадров. Алгоритм встроен в специализированные коммутаторы этих сетей.
 
-В ПКС маршрутизация производится коммутаторами на основе динамических таблиц, задаваемых контроллером. Предложенная автором схема основывается на механизме meter-таблиц \cite{meter}, показанных на рисунке~\ref{pic:scheme:meter} и являющихся частью стандарта OpenFlow1.3 \cite{openflow}. Такие таблицы также управляются контроллером и могут быть изменены в процессе работы системы. Каждая запись meter-таблицы задаёт измеритель, контролирующий скорость привязанных к нему потоков. Схема, по которой осуществляется данный контроль, не закреплена в стандарте и зависит от конкретных реализаций. 
+В ПКС маршрутизация производится коммутаторами на основе динамических таблиц, задаваемых контроллером. Предложенная автором схема, описанная в \cite{vlsdn}, основывается на механизме meter-таблиц \cite{meter}, показанных на рисунке~\ref{pic:scheme:meter} и являющихся частью стандарта OpenFlow1.3 \cite{openflow}. Такие таблицы также управляются контроллером и могут быть изменены в процессе работы системы. Каждая запись meter-таблицы задаёт измеритель, контролирующий скорость привязанных к нему потоков. Схема, по которой осуществляется данный контроль, не закреплена в стандарте и зависит от конкретных реализаций. 
 
 \begin{figure}[h!]
 	\centering
@@ -191,7 +191,7 @@
 
 
 \section{Актуальность задачи}
-Динамическая реконфигурация сети востребована в ВС РВ. Возможность перераспределить потоки данных в ходе работы системы необходима при возникновении сбоев или желании заложить несколько режимов работы в систему.
+Динамическая реконфигурация сети востребована в ВС РВ. Возможность перераспределить потоки данных в ходе работы системы необходима при возникновении сбоев или желании заложить несколько режимов работы в систему. Существующее решение, предложенное в \cite{fakevlsdn}, не описывает схему контроля параметров качества обслуживания и представлено, как альтернатива дублированию сети, обеспечивающая восстановление работы системы в случаях единичных сбоев. 
 
 В разделе \ref{sec:scheme} было продемонстрировано, что в ПКС имеются возможности для гибкой реконфигурации сети при соблюдении требований к качеству обслуживания, принятых в сетях ВС РВ. Для осуществления реконфигурации в случае возникновения сбоев необходимо:
 \begin{enumerate}
@@ -390,6 +390,27 @@ $$bw = \frac{L_{max}}{BAG}$$
 
 \section{Программная реализация}
 \subsection{Выбор базового программного обеспечения сети}
+
+В данном разделе обосновывается выбор коммутаторов и контроллера, используемых в предлагаемом подходе и дальнейших исследованиях.
+
+Выбор коммутаторов основывается на используемой схеме управления трафиком. При этом к коммутаторам предъявляются следующие требования:
+\begin{itemize}
+	\item Поддержка механизма meter-таблиц.
+	\item OpenFlow не ниже 1.3.
+	\item Реализация механизма meter-таблиц должна основываться на алгоритме текущего ведра.
+\end{itemize}
+
+Корректность схемы управления трафиком в ПКС с использованием программного коммутатора Ofsoftswitch13 \cite{ofsoftswitch} была подтверждена в предыдущих работах автора. Поэтому выбор сделан в его пользу.
+
+Выбор контроллера обусловлен следующими критериями:
+\begin{itemize}
+	\item Язык реализации С++, который обеспечивает более детерминированное время работы. Обоснование этому может быть найдено в \cite{cpp}.
+	\item OpenFlow версии не ниже 1.3
+	\item Поддерживаемость ?? add как сказать лучше.
+\end{itemize}
+
+Были рассмотрены следующие варианты контроллеров, реализованных на C++: NOX \cite{nox} и RUNOS \cite{runos}. Контроллер NOX больше не поддерживается разработчиками, тогда как RUNOS активно развивается, поэтому выбор был сделан в пользу второго.
+
 \subsection{Структура программного средства}
 Диаграмма, отражающая основные программные компоненты приложения реконфигурации показана на рисунке~\ref{pic:classes}.
 
@@ -692,6 +713,8 @@ $$p = \max_{e}\frac{p_{e}}{bw_{e}}$$
 	Fibre Channel Arbitrated Loop (FC-AL) // working draft proposal American National Standard for Information Technology. 1995. 98 p.
 	\bibitem{sdn}
 	Software-Defined Networking: The New Norm for Networks // Open Networking Foundation. -- 2012. [PDF] (https://www.opennetworking.org/images/stories/downloads/sdn-resources/white-papers/wp-sdn-newnorm.pdf)
+	\bibitem{vlsdn}
+	Balashov V., Kostenko V., Ermakova T. An SDN-based approach to design of onboard real-time networks // Modern Network Technologies, MoNeTec-2018. -- Moscow, 2018. -- P. 16-22.
 	\bibitem{vdovin}
 	Vdovin P. M., Kostenko V. A. Organizing message transmission in AFDX networks // Programming and Computer Software. -- 2017. -- Vol. 43, No 1. -- P. 1-12. [DOI] (https://link.springer.com/article/10.1134\%2FS0361768817010078).
 	\bibitem{meter}
@@ -700,6 +723,8 @@ $$p = \max_{e}\frac{p_{e}}{bw_{e}}$$
 	ONF OpenFlow Switch Specification, Version1.3.0 [PDF] (https://www.opennetworking.org/images/stories/downloads/sdn-resources/onf-specifications/openflow/openflow-spec-v1.3.0.pdf)
 	\bibitem{ofsoftswitch}
 	CPqD F. Openflow 1.3 software switch [HTML] (http://www.cpqd.github.io/ofsoftswitch13/).
+	\bibitem{fakevlsdn}
+	Cevher S. et al. A Fault Tolerant Software Defined Networking Architecture for Integrated Modular Avionics // 37th Digital Avionics Systems Conference (DASC). -- IEEE, 2018. -- С. 1-9.
 	\bibitem{alg1}
 	Al Sheikh A. et al. Optimal design of virtual links in AFDX networks // Real-Time Systems. -- 2013. -- Т. 49. -- No 3. -- P. 308-336.
 	\bibitem{vdovinalg}
@@ -712,6 +737,10 @@ $$p = \max_{e}\frac{p_{e}}{bw_{e}}$$
 	Ochoa Aday L., Cervelló Pastor C., Fernández Fernández A. Current trends of topology discovery in OpenFlow-based software defined networks. -- 2015.
 	\bibitem{monitor2}
 	Pakzad F. et al. Efficient topology discovery in software defined networks // 2014 8th International Conference on Signal Processing and Communication Systems (ICSPCS). -- IEEE, 2014. -- С. 1-8.
+	\bibitem{cpp}
+	Orozco J. D., Santos R. M. Real-Time Operating Systems and Programming Languages for Embedded Systems. // INTECH Open Access Publisher. -- 2012.
+	\bibitem{nox}
+	Gude N. NOX: towards an operating system for networks // ACM SIGCOMM Computer Communication Review. -- 2008. -- Т. 38. -- №. 3. -- P. 105-110.
 	\bibitem{runos}
 	Shalimov A. et al. The Runos OpenFlow Controller // Software Defined Networks (EWSDN), 2015 Fourth European Workshop on. -- IEEE, 2015. -- С. 103-104.
 	\bibitem{mininet}
