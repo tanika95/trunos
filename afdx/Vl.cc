@@ -99,10 +99,15 @@ Vl &Vl::withChangedRoute(const vector<VlSwitch> &new_route, uint32_t edge)
 		}
 		i++;
 	}
+	if (i == route.size()) {
+		i = -1; // ечли маршрут совсем поменялся
+	}
 	previous.assign(route.begin(), route.end());
 	route.erase(route.begin() + i + 1, route.end());
 	route.insert(route.end(), new_route.begin() + 1, new_route.end());
-	route[i].rport = new_route[0].rport;
+	if (i > 0) {
+		route[i].rport = new_route[0].rport;
+	}
 	return *this;
 }
 

@@ -62,6 +62,13 @@ void Netcontrol::switchDiscovered(Switch *sw)
                 topo = topo
                         .withLink({sw->id(), 1, sw->id() | HOST_MASK, 1})
                         .withHostLink(sw->id(), sw->id());
+                int also = sw->id() - 1;
+                if (also == 0) {
+                        also = 4;
+                }
+                topo = topo
+                        .withLink({sw->id(), 2, also | HOST_MASK, 2})
+                        .withHostLink(also, sw->id());
         }
         if (topo.isFull()) {
                 start();

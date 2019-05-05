@@ -2,71 +2,40 @@
 	<switches>4</switches>
 	<links>10</links>
 	<hosts>4</hosts>
-	<default_bw>20</default_bw>
+	<default_bw>2000</default_bw>
 	<vls>
-		<vl>
-			<id>1</id>
-		        <sender>1</sender>
-		        <receiver>4</receiver>
-		        <bag>1</bag>
-		        <lmax>1000</lmax>
-		        <jitter>0.01</jitter>
-		</vl>
-		<vl>
-			<id>2</id>
-		        <sender>1</sender>
-		        <receiver>4</receiver>
-		        <bag>1</bag>
-		        <lmax>500</lmax>
-		        <jitter>0.01</jitter>
-		</vl>
-		<vl>
-			<id>3</id>
-		        <sender>2</sender>
-		        <receiver>4</receiver>
-		        <bag>1</bag>
-		        <lmax>500</lmax>
-		        <jitter>0.01</jitter>
-		</vl>
-		<vl>
-			<id>4</id>
-			<sender>4</sender>
-			<receiver>1</receiver>
-			<bag>1</bag>
-			<lmax>1000</lmax>
-			<jitter>0.01</jitter>
-		</vl>
+
 	</vls>
 	<linksinfo>
 		<link>
 		        <sender>1</sender>
 		        <receiver>4</receiver>
-		        <bw>7</bw>
+		        <bw>200</bw>
 		</link>
 		<link>
 		        <sender>2</sender>
 		        <receiver>3</receiver>
-		        <bw>12</bw>
+		        <bw>200</bw>
 		</link>
 		<link>
 		        <sender>1</sender>
 		        <receiver>2</receiver>
-		        <bw>1</bw>
+		        <bw>200</bw>
 		</link>
 		<link>
 		        <sender>1</sender>
 		        <receiver>3</receiver>
-		        <bw>8</bw>
+		        <bw>200</bw>
 		</link>
 		<link>
 		        <sender>3</sender>
 		        <receiver>4</receiver>
-		        <bw>4</bw>
+		        <bw>200</bw>
 		</link>
 		<link>
 		        <sender>2</sender>
 		        <receiver>4</receiver>
-		        <bw>8</bw>
+		        <bw>200</bw>
 		</link>
 	</linksinfo>
 	<hostlinks>

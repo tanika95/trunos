@@ -7,7 +7,7 @@ from Flows import Flows
 host = int(sys.argv[1])
 config = sys.argv[2]
 flows = Flows(config).toSendBy(host)
-count = 200
+count = 150
 
 def write(id, stats):
 	f = open('results/raw/' + str(id) + '.snd', 'w')

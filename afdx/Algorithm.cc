@@ -52,6 +52,7 @@ VlSet Algorithm::baseStep(VlSet vls)
 			auto network = map.graphForVl(link, bandwidth);
 			auto path = searchPath(network, brokenmap[i].sedge, link.to());
 			link = link.withChangedRoute(map.routeForVl(path), brokenmap[i].sedge);
+
 			bandwidth = bandwidth.withVlPart(link, brokenmap[i].sedge);
 		} else {
 			link = link.stable();

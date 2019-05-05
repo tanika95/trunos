@@ -98,7 +98,11 @@ Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 			auto bw_left = bws.getBandwidth(link.second.from(), link.second.to());
 			if (vl.bw() <= bw_left) {
 				edgs.push_back(Edge(link.second.from(), link.second.to()));
-				bdws.push_back(bw_left);
+				if (bw_left == 0) {
+					bdws.push_back(10000);
+					continue;
+				}
+				bdws.push_back(1.0 / bw_left);
 			}
 		}
 	}
@@ -107,6 +111,9 @@ Graph NetTopology::graphForVl(const Vl &vl, const BandwidthInfo &bws) const
 		auto host = hosts.at(i);
 		const auto links = host.getLinks();
 		for (const auto &link : links) {
+			if (switches.find(link) == switches.end()) {
+				continue;
+			}
 			edgs.push_back(Edge(host.getId(), link));
 			bdws.push_back(0.0);
 		}

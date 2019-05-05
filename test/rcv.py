@@ -15,7 +15,7 @@ config = sys.argv[2]
 result = {}
 flows = Flows(config)
 incomming = flows.receivedByIds(host)
-count = 100
+count = 30
 
 def write(report, stats):
 	f = open('results/raw/' + report, 'w')

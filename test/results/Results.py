@@ -44,8 +44,6 @@ class FlowStats:
 				rcv = recv[i].timestamp()
 				snd = packet.timestamp()
 				delays.append(rcv - snd)
-				if rcv - snd < 0:
-					print(i)
 				i += 1
 		return delays, losts
 
@@ -69,10 +67,12 @@ class Results:
 	def gather(self):
 		stats = []
 		for i in range(self.flows):
-			send = SniffStats(self.path + self.raw + str(i + 1) + '.snd').asVector()
-			recv = SniffStats(self.path + self.raw + str(i + 1) + '.rcv').asVector()
-			stats += [FlowStats(i + 1, send, recv)]
-
+			try:
+				send = SniffStats(self.path + self.raw + str(i + 1) + '.snd').asVector()
+				recv = SniffStats(self.path + self.raw + str(i + 1) + '.rcv').asVector()
+				stats += [FlowStats(i + 1, send, recv)]
+			except:
+				pass
 		max_delay = max([s.delay for s in stats])
 		jitter = max([s.jitter for s in stats])
 		losts = max([s.lost() for s in stats])
