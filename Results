@@ -84,3 +84,83 @@ I0505 17:45:28.643702  6254 Timer.hh:17] Apply changes:12.627 ms
 
 
 topology double s2
+
+1.
+I0507 20:49:00.907678 26115 Timer.hh:17] Base step:1.388 ms
+I0507 20:49:00.907984 26115 Network.cc:31] Applying VlSet
+I0507 20:49:00.909607 26115 Timer.hh:17] Apply changes:1.545 ms
+
+I0507 20:50:49.294306 27026 Timer.hh:17] Base step:1.546 ms
+I0507 20:50:49.294364 27026 Network.cc:31] Applying VlSet
+I0507 20:50:49.294924 27026 Timer.hh:17] Apply changes:0.547 ms
+
+2.
+
+I0507 20:54:42.657251 28915 Timer.hh:17] Base step:1.495 ms
+I0507 20:54:42.657310 28915 Network.cc:31] Applying VlSet
+I0507 20:54:42.657944 28915 Timer.hh:17] Apply changes:0.623 ms
+
+I0507 20:57:49.401103 30728 Timer.hh:17] Base step:1.642 ms
+I0507 20:57:49.401175 30728 Network.cc:31] Applying VlSet
+I0507 20:57:49.402050 30728 Timer.hh:17] Apply changes:0.858 ms
+
+3.
+
+I0507 20:59:29.548313 31643 Timer.hh:17] Base step:1.566 ms
+I0507 20:59:29.548377 31643 Network.cc:31] Applying VlSet
+I0507 20:59:29.548833 31643 Timer.hh:17] Apply changes:0.446 ms
+
+I0507 21:00:54.983795 32544 Timer.hh:17] Base step:1.76 ms
+I0507 21:00:54.983860 32544 Network.cc:31] Applying VlSet
+I0507 21:00:54.984699 32544 Timer.hh:17] Apply changes:0.822 ms
+
+4.
+I0507 21:06:24.154798  5133 Timer.hh:17] Base step:1.66 ms
+I0507 21:06:24.154858  5133 Network.cc:31] Applying VlSet
+I0507 21:06:24.155447  5133 Timer.hh:17] Apply changes:0.576 ms
+
+I0507 21:21:46.701082  7040 Timer.hh:17] Base step:1.853 ms
+I0507 21:21:46.701164  7040 Network.cc:31] Applying VlSet
+I0507 21:21:46.701794  7040 Timer.hh:17] Apply changes:0.614 ms
+
+
+
+5node
+s1-s5
+
+1.
+I0507 21:26:28.174979  9203 Timer.hh:17] Base step:0.345 ms
+I0507 21:26:28.175141  9203 Network.cc:31] Applying VlSet
+I0507 21:26:28.176091  9203 Timer.hh:17] Apply changes:0.912 ms
+
+I0507 21:28:16.174307 11772 Timer.hh:17] Base step:0.185 ms
+I0507 21:28:16.174360 11772 Network.cc:31] Applying VlSet
+I0507 21:28:16.174692 11772 Timer.hh:17] Apply changes:0.32 ms
+
+2.
+
+I0507 21:30:16.176100 15699 Timer.hh:17] Base step:0.6 ms
+I0507 21:30:16.176148 15699 Network.cc:31] Applying VlSet
+I0507 21:30:16.176713 15699 Timer.hh:17] Apply changes:0.553 ms
+
+I0507 21:32:07.669986 17332 Timer.hh:17] Base step:1.801 ms
+I0507 21:32:07.670166 17332 Network.cc:31] Applying VlSet
+I0507 21:32:07.671972 17332 Timer.hh:17] Apply changes:1.765 ms
+
+3.
+
+I0507 21:33:10.170511 18534 Timer.hh:17] Base step:2.371 ms
+I0507 21:33:10.170699 18534 Network.cc:31] Applying VlSet
+I0507 21:33:10.172942 18534 Timer.hh:17] Apply changes:2.203 ms
+
+I0507 21:34:06.170644 19561 Timer.hh:17] Base step:2.622 ms
+I0507 21:34:06.170830 19561 Network.cc:31] Applying VlSet
+I0507 21:34:06.173265 19561 Timer.hh:17] Apply changes:2.393 ms
+
+4.
+I0507 21:38:51.168532 21571 Algorithm.cc:67] Additional step started
+I0507 21:38:51.174315 21571 Timer.hh:17] Additional step:5.77 ms
+I0507 21:38:51.174415 21571 Network.cc:31] Applying VlSet
+I0507 21:38:51.178117 21571 Timer.hh:17] Apply changes:3.67 ms
+
+no
